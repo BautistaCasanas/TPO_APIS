@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import Navbar from '../Components/Navbar/Navbar';
 import { useFetch } from '../hooks/UseFetch.js';
+import Footer from '../Components/Footer/Footer.jsx';
 
     function Perfil() {
         
 
-        const { data: userInfo, error, loading } = useFetch("http://localhost:3000/profile");
+        const { data: userInfo, error, loading } = useFetch("http://localhost:3000/profile"); //TODO: Traer desde el local storage
         if (error) return <div>Error al cargar la información del usuario</div>;
         if (loading) return <div>Cargando...</div>;
 
@@ -36,6 +37,7 @@ import { useFetch } from '../hooks/UseFetch.js';
                         </div>
                     </div>
                 </div>
+                {/* Form para editar el perfil */} 
                 {/* <div className="card">
                     <div className="card-body">
                         <h2 className="card-title">Editar Información</h2>
@@ -77,6 +79,8 @@ import { useFetch } from '../hooks/UseFetch.js';
                     </div>
                 </div> */}
             </div>
+
+            <Footer/>
             </>
         );
 };

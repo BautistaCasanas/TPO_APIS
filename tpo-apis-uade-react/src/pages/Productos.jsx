@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import ProductsList from '../Components/Products/ProductsList/ProductsList';
 import Navbar from '../Components/Navbar/Navbar';
+import Footer from '../Components/Footer/Footer';
 
 const Productos = () => {
     const [busqueda, setBusqueda] = useState('');
@@ -30,11 +31,13 @@ const Productos = () => {
                     <option value="clothing">Ropa</option>
                     <option value="electronics">Tecnología</option>
                 </select>
-                <button onClick={() => {setFiltro('');setBusqueda('')}} className='btn btn-primary'>Limpiar Filtro</button>
+                <button onClick={() => {setFiltro('');setBusqueda('')}} className='btn btn-primary'>Limpiar Filtros</button>
             </div>
 
             <ProductsList busqueda={busqueda} filtro={filtro} />
         </div>
+
+        <Footer/>
         </>
     );
 };

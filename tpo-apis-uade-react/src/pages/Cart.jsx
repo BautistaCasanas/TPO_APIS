@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { CartContext } from '../Context/CartContext';
 import Navbar from '../Components/Navbar/Navbar';
+import Footer from '../Components/Footer/Footer';
 
 const Cart = () => {
     const { getCart,removeFromCart } = useContext(CartContext);
@@ -62,6 +63,7 @@ const Cart = () => {
             )}
         </div>
 
+        <Footer/>
         </>
     );
 };
