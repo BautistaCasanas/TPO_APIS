@@ -60,7 +60,7 @@ function ProductManagement() {
                                     <IconButton color="primary" size="small" onClick={() => console.log("Editar producto")}>
                                         <EditIcon />
                                     </IconButton>
-                                    <IconButton color="error" size="small" onClick={console.log("Producto Eliminado")} >
+                                    <IconButton color="error" size="small" onClick={()=>console.log("Producto Eliminado")} >
                                         <DeleteIcon />
                                     </IconButton>
                                 </TableCell>

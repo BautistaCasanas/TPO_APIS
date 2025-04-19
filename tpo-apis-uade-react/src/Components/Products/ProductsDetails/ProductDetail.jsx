@@ -12,7 +12,7 @@ const ProductDetail = () => {
     return (
         <Card>
             <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
+                <Grid  xs={12} sm={6}>
                     <CardMedia
                         component="img"
                         alt={product.name}
@@ -21,7 +21,7 @@ const ProductDetail = () => {
                         title={product.name}
                     />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid  xs={12} sm={6}>
                     <CardContent>
                         <Typography variant="h5" component="h2">
                             {product.name}
