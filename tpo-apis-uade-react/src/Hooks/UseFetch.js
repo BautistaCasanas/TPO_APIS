@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
 
+/**
+ * @param {string} url 
+ * @returns {data, error, loading}
+ */
 export const useFetch = (url) => {
 
     const [data, setData] = useState([]);
