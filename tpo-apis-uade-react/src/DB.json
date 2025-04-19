@@ -1,9 +1,21 @@
-{
+{   
+    "profile":
+        {
+            "name":"John Doe",
+            "image":"https://via.placeholder.com/150",
+            "email":"johndoe@email.com",
+            "phone":"123-456-7890",
+            "address":"123 Main St, City, Country"
+        }
+    ,
     "users":[
         {
             "id":1,
             "name":"John Doe",
-            "image":"https://via.placeholder.com/150"
+            "image":"https://via.placeholder.com/150",
+            "email":"johndoe@email.com",
+            "phone":"123-456-7890",
+            "address":"123 Main St, City, Country"
         }
     ],
     "products":[
