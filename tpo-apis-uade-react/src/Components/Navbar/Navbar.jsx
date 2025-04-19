@@ -1,12 +1,19 @@
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect,useContext } from 'react';
+
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { CartContext } from '../../Context/CartContext';
+
 
 const Navbar = () => {
     const [showDropdown, setShowDropdown] = useState(false);
     const dropdownRef = useRef();
 
+    const { getCartCount } = useContext(CartContext);
+    const cartCount = getCartCount();
+
+    
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -49,6 +56,12 @@ const Navbar = () => {
                         <Link className="text-white text-decoration-none" to="/carrito">
                             <FaShoppingCart size={18} />
                         </Link>
+
+                        {cartCount > 0 && (
+                                <span className="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
+                                    {cartCount}
+                                </span>
+                            )}
 
                         <div ref={dropdownRef}>
                             <span

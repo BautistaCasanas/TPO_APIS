@@ -1,12 +1,15 @@
-import { useState } from 'react'
+
+import { useContext } from 'react';
+import { CartContext } from '../../Context/CartContext';
 
 
 const Card = ({ id, title, description, price, image }) => {
 
-    const [prendido, setPrendido] = useState(false);
+    const { addToCart } = useContext(CartContext) // Importa la función addToCart del contexto
 
-    const handleClick = () => {
-        setPrendido(!prendido);
+    const addProduct = () => {
+        let item = { id, title, description, price, image };
+        addToCart(item);
     }
 
         
@@ -20,7 +23,7 @@ const Card = ({ id, title, description, price, image }) => {
                 <h5 className="card-title">{title}</h5>
                 <p className="card-text">{description}</p>
                 <p className="card-text">{price}</p>
-                <button onClick={handleClick} className="btn btn-primary">Agregar</button>
+                <button onClick={addProduct} className="btn btn-primary">Agregar</button>
             </div>
         </div>  
        </>
