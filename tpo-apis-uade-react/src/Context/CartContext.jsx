@@ -18,9 +18,13 @@ export const CartProvider = ({ children }) => {
     };
 
     // Función para eliminar un item del carrito
-    const removeFromCart = (item) => {
-        setCart((prevCart) => prevCart.filter((cartItem) => cartItem.id !== item.id)); // Filtra el carrito para eliminar el item especificado
-    }
+    const removeFromCart = (id) => {
+        console.log("eliminando del carrito id:", id);
+        const updatedCart = cart.filter((cartItem) => cartItem.id !== id);
+        setCart(updatedCart); // Actualiza el estado del carrito eliminando el item
+        saveLocalStorage('cart', updatedCart); // Guarda el carrito actualizado en el localStorage
+    };
+    
 
     // Función para obtener el carrito del localStorage
     const getCart = () => {
@@ -29,7 +33,7 @@ export const CartProvider = ({ children }) => {
     }
 
     const getCartCount = () => {
-        return cart.reduce((acc, item) => acc + 1, 0); // Devuelve la cantidad total de items en el carrito
+        return getCart().reduce((acc, item) => acc + 1, 0); // Devuelve la cantidad total de items en el carrito
     }
     
     return (
