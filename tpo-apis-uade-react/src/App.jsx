@@ -4,7 +4,6 @@ import Cart from "./pages/Cart";
 import Productos from "./pages/Productos";
 import Perfil from "./pages/Perfil";
 import {CartProvider} from "./Context/CartContext";
-import 'bootstrap/dist/css/bootstrap.min.css';
 import DetalleProducto from "./pages/DetalleProducto";
 
 
@@ -20,7 +19,7 @@ function App() {
               <Route path="/productos" element={<Productos/>} />
               <Route path="/carrito" element={<Cart/>} />
               <Route path="/perfil" element={<Perfil/>} />
-              <Route path="/product/:id" element={<DetalleProducto />} />
+              <Route path="/product/:id" element={<DetalleProducto/>} />
           </Routes>
         </CartProvider>
     </>

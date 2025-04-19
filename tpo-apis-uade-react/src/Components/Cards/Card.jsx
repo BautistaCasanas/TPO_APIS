@@ -20,7 +20,7 @@ const Card = ({ id, title, description, price, image }) => {
         <div className="card" key={id}>
             <Link to={`/product/${id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
             <img src={image} className="card-img-top" alt="..." />
-            </Link>
+            </Link> 
             <div className="card-body">
                 <h5 className="card-title">{title}</h5>
                 <p className="card-text">{description}</p>

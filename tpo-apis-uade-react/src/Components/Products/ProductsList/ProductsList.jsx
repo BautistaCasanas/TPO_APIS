@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Card from "../../Cards/Card.jsx"; "../../Cards/Card.jsx";
+import Card from "../../Cards/Card.jsx";
 import { useFetch } from "../../../hooks/UseFetch.js";
 
 const ProductsList = ({ busqueda, filtro }) => {

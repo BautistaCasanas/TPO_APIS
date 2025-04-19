@@ -5,23 +5,15 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import IconButton from '@mui/material/IconButton';
 import { Link } from 'react-router-dom';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { useFetch } from '../../hooks/UseFetch';
 const ProductCarousel = () => {
-  const [products, setProducts] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  
+  const { data: products, error, loading } = useFetch("http://localhost:3000/products");
 
 
-  useEffect(() => {
-    fetch('http://localhost:3000/products')
-      .then((response) => response.json())
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setProducts(data);
-        } else {
-          console.error("La respuesta no es un array de productos");
-        }
-      })
-      .catch((error) => console.error('Error al cargar los productos:', error));
-  }, []);
+  if (error) return <div>Error al cargar los productos</div>;
+  if (loading) return <div>Cargando...</div>;
 
   //  3 productos sig
   const nextSlide = () => {
