@@ -36,25 +36,5 @@
             "stock":100
 
         }
-    ],
-    "orders":[
-        {
-            "id":1,
-            "userId":1,
-            "productId":1,
-            "quantity":2,
-            "totalPrice":21.98,
-            "status":"shipped",
-            "date":"2023-10-01"
-        },
-        {
-            "id":2,
-            "userId":1,
-            "productId":2,
-            "quantity":1,
-            "totalPrice":20.99,
-            "status":"pending",
-            "date":"2023-10-02"
-        }
     ]
 }
