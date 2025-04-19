@@ -8,7 +8,7 @@ const ProductsList = ({ busqueda, filtro }) => {
   if (error) return <div>Error al cargar los productos</div>;
   if (loading) return <div>Cargando...</div>;
 
-  const categorias = [...new Set(products.map(p => p.category))]; // 
+  // const categorias = [...new Set(products.map(p => p.category))]; 
 
   const productosFiltrados = products.filter(product =>
     product.name.toLowerCase().includes(busqueda.toLowerCase()) &&
@@ -21,6 +21,7 @@ const ProductsList = ({ busqueda, filtro }) => {
         {productosFiltrados.map((product) => (
           <div className="col-md-4" key={product.id}>
             <Card
+              id={product.id}
               title={product.name}
               description={product.description}
               price={product.price}
