@@ -1,0 +1,60 @@
+{
+    "users":[
+        {
+            "id":1,
+            "name":"John Doe",
+            "image":"https://via.placeholder.com/150"
+        }
+    ],
+    "products":[
+        {
+            "id":1,
+            "name":"Product 1",
+            "description":"Description of Product 1",
+            "price":10.99,
+            "image":"https://via.placeholder.com/150",
+            "category":"electronics",
+            "stock":100
+        },
+        {
+            "id":2,
+            "name":"Product 2",
+            "description":"Description of Product 2",
+            "price":20.99,
+            "image":"https://via.placeholder.com/150",
+            "category":"clothing",
+            "stock":100
+            
+        },
+        {
+            "id":3,
+            "name":"Product 3",
+            "description":"Description of Product 3",
+            "price":30.99,
+            "image":"https://via.placeholder.com/150",
+            "category":"clothing",
+            "stock":100
+
+        }
+    ],
+    "orders":[
+        {
+            "id":1,
+            "userId":1,
+            "productId":1,
+            "quantity":2,
+            "totalPrice":21.98,
+            "status":"shipped",
+            "date":"2023-10-01"
+        },
+        {
+            "id":2,
+            "userId":1,
+            "productId":2,
+            "quantity":1,
+            "totalPrice":20.99,
+            "status":"pending",
+            "date":"2023-10-02"
+        }
+    ]
+}

@@ -1,0 +1,50 @@
+
+/* Navbar general */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Logo */
+  .navbar-logo a {
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333333;
+  }
+  
+  /* Enlaces */
+  .navbar-links {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+  }
+  
+  .navbar-links li a {
+    text-decoration: none;
+    color: #555555;
+    font-size: 1.1rem;
+    transition: color 0.3s;
+  }
+  
+  .navbar-links li a:hover {
+    color: #ff6600;
+  }
+  
+  /* Carrito */
+  .navbar-cart a {
+    text-decoration: none;
+    color: #333333;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-cart a:hover {
+    color: #ff6600;
+  }
+  
