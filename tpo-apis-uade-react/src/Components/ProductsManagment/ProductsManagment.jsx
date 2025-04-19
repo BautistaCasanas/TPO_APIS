@@ -31,7 +31,7 @@ function ProductManagement() {
                     placeholder="Buscar productos..."
                     size="small"
                 />
-                <Button variant="contained" color="primary">
+                <Button variant="contained" color="primary" onClick={() => console.log("Añadir producto")}>
                     Añadir Producto
                 </Button>
             </Box>
