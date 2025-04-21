@@ -4,7 +4,8 @@
     "image": "https://via.placeholder.com/150",
     "email": "johndoe@email.com",
     "phone": "123-456-7890",
-    "address": "123 Main St, City, Country"
+    "address": "123 Main St, City, Country",
+    "role":"admin"
   },
   "users": [
     {
@@ -13,7 +14,8 @@
       "image": "https://via.placeholder.com/150",
       "email": "johndoe@email.com",
       "phone": "123-456-7890",
-      "address": "123 Main St, City, Country"
+      "address": "123 Main St, City, Country",
+      "role":"admin"
     }
   ],
   "products": [
