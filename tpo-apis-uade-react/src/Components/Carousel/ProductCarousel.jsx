@@ -88,6 +88,7 @@ const ProductCarousel = () => {
   >
     <ArrowForwardIosIcon fontSize="small" />
   </IconButton>
+  
     </Box>
   );
 };
