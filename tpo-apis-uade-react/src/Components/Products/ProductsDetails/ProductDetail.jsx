@@ -1,6 +1,10 @@
 import { useParams } from "react-router-dom";
 import { useFetch } from "../../../hooks/UseFetch.js";
-import { Typography, Card, CardContent, CardMedia, Grid } from "@mui/material";
+import { Typography, Card, CardContent, CardMedia, Grid, Box, Paper, Button } from "@mui/material";
+import Comentarios from "./Comentarios.jsx";
+import { CartContext } from "../../../Context/CartContext.jsx";
+import { useContext } from 'react';
+
 
 const ProductDetail = () => {
     const { id } = useParams();
@@ -9,39 +13,55 @@ const ProductDetail = () => {
     if (loading) return <p>Cargando producto...</p>;
     if (error) return <p>Error al cargar el producto</p>;
 
+    const { addToCart } = useContext(CartContext)
+    const addProduct = () => {
+        let item = {
+            id: product.id,
+            name: product.name,  
+            description: product.description,
+            price: product.price,
+            image: product.image
+        };
+        addToCart(item);
+    }
+
+
     return (
-        <Card>
-            <Grid container spacing={2}>
-                <Grid  xs={12} sm={6}>
-                    <CardMedia
-                        component="img"
-                        alt={product.name}
-                        height="300"
-                        image={product.image}
-                        title={product.name}
-                    />
+        <Box sx={{ maxWidth: 1200, margin: '0 auto', padding: 2 }}>
+            <Paper elevation={3} sx={{ mb: 4 }}>
+                <Grid container spacing={2} sx={{ p: 2 }}>
+                    <Grid>
+                        <CardMedia
+                            component="img"
+                            alt={product.name}
+                            height="250"
+                            image={product.image}
+                        />
+                    </Grid>
+                    <Grid>
+                        <Box sx={{ p: 2 }}>
+                            <Typography variant="h4" component="h1" gutterBottom>
+                                {product.name}
+                            </Typography>
+                            <Typography variant="h5" color="primary" gutterBottom>
+                                ${product.price}
+                            </Typography>
+                            <Typography variant="body1" gutterBottom>
+                                {product.description}
+                            </Typography>
+                            <Typography variant="subtitle1" gutterBottom>
+                                Categoría: {product.category}
+                            </Typography>
+                            <Typography variant="subtitle1" gutterBottom>
+                                Stock disponible: {product.stock} unidades
+                            </Typography>
+                            <Button onClick={addProduct} variant="contained" >Agregar</Button>
+                        </Box>
+                    </Grid>
                 </Grid>
-                <Grid  xs={12} sm={6}>
-                    <CardContent>
-                        <Typography variant="h5" component="h2">
-                            {product.name}
-                        </Typography>
-                        <Typography variant="body1" color="textSecondary">
-                            Precio: ${product.price}
-                        </Typography>
-                        <Typography variant="body1" color="textSecondary">
-                            Descripción: {product.description}
-                        </Typography>
-                        <Typography variant="body1" color="textSecondary">
-                            Categoría: {product.category}
-                        </Typography>
-                        <Typography variant="body1" color="textSecondary">
-                            Stock: {product.stock}
-                        </Typography>
-                    </CardContent>
-                </Grid>
-            </Grid>
-        </Card>
+            </Paper>
+            <Comentarios productId={id}/>
+        </Box>
     );
 };
 
