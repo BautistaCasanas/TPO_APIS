@@ -80,8 +80,8 @@ const Navbar = () => {
                                     </div>
                                     <hr className="my-1" />
                                     <Link to="/perfil" className="dropdown-item">Mi perfil</Link>
-                                    <Link to="/configuracion" className="dropdown-item">Configuración</Link>
-                                    <button className="dropdown-item text-danger" onClick={() => alert('Cerrar sesión')}>
+                                    <Link to="/dashboard" className="dropdown-item">Configuración</Link>
+                                    <button className="dropdown-item text-danger" onClick={() => console.log('Cerrar sesión')}>
                                         Cerrar sesión
                                     </button>
                                 </div>
