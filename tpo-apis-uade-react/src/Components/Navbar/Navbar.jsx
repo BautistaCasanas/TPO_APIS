@@ -1,19 +1,19 @@
 
 import React, { useState, useRef, useEffect,useContext } from 'react';
-
+import { useFetch } from '../../hooks/UseFetch';
 import { FaShoppingCart, FaUser } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { CartContext } from '../../Context/CartContext';
 
 
 const Navbar = () => {
+    
     const [showDropdown, setShowDropdown] = useState(false);
     const dropdownRef = useRef();
 
     const { getCartCount } = useContext(CartContext);
     const cartCount = getCartCount();
 
-    
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -24,6 +24,10 @@ const Navbar = () => {
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
+
+    const { data: userInfo, error, loading } = useFetch("http://localhost:3000/profile"); //TODO: Traer desde el local storage
+    if (loading) return <p>Cargando usuario...</p>;
+    if (error) return <p>Error al cargar el usuario</p>;
 
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
@@ -75,13 +79,13 @@ const Navbar = () => {
                             {showDropdown && (
                                 <div className="dropdown-menu dropdown-menu-end show position-absolute" style={{ right: 0, top: '100%' }}>
                                     <div className="px-3 py-2">
-                                        <strong>Juan Pérez</strong>
-                                        <div className="text-muted small">juan@example.com</div>
+                                        <strong>{userInfo.name}</strong>
+                                        <div className="text-muted small">{userInfo.email}</div>
                                     </div>
                                     <hr className="my-1" />
                                     <Link to="/perfil" className="dropdown-item">Mi perfil</Link>
-                                    <Link to="/configuracion" className="dropdown-item">Configuración</Link>
-                                    <button className="dropdown-item text-danger" onClick={() => alert('Cerrar sesión')}>
+                                    <Link to="/dashboard" className="dropdown-item">Configuración</Link>
+                                    <button className="dropdown-item text-danger" onClick={() => console.log('Cerrar sesión')}>
                                         Cerrar sesión
                                     </button>
                                 </div>

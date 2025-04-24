@@ -1,8 +1,12 @@
 import {Routes, Route} from "react-router-dom";
 import Home from "./pages/Home";
-import Productos from "./pages/Productos";
 import Cart from "./pages/Cart";
+import Productos from "./pages/Productos";
+import Perfil from "./pages/Perfil";
 import {CartProvider} from "./Context/CartContext";
+import DetalleProducto from "./pages/DetalleProducto";
+
+import Dashboard from "./pages/Dashboard";
 
 function App() { 
 
@@ -15,7 +19,10 @@ function App() {
               <Route path="/home" element={<Home/>} />
               <Route path="/productos" element={<Productos/>} />
               <Route path="/carrito" element={<Cart/>} />
-              <Route path="/perfil" element={<Home/>} />
+              <Route path="/perfil" element={<Perfil/>} />
+              <Route path="/product/:id" element={<DetalleProducto/>} />
+              <Route path="/dashboard" element={<Dashboard/>} />
+              <Route path="/dashboard/products" element={<Dashboard/>} />
           </Routes>
         </CartProvider>
     </>

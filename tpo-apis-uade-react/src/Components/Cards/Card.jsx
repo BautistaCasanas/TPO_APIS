@@ -1,7 +1,7 @@
 
 import { useContext } from 'react';
 import { CartContext } from '../../Context/CartContext';
-
+import { Link } from 'react-router-dom';
 
 const Card = ({ id, title, description, price, image }) => {
 
@@ -17,8 +17,10 @@ const Card = ({ id, title, description, price, image }) => {
         <>
         {/*Quiero una card con estilos Con estilos lo quiero con boostrap*/}
 
-        <div className="card" key={id}>
+        <div className="card mb-4" key={id}>
+            <Link to={`/product/${id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
             <img src={image} className="card-img-top" alt="..." />
+            </Link> 
             <div className="card-body">
                 <h5 className="card-title">{title}</h5>
                 <p className="card-text">{description}</p>
