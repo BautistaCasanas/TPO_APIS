@@ -2,6 +2,23 @@ import React, { useContext } from 'react';
 import { CartContext } from '../Context/CartContext';
 import Navbar from '../Components/Navbar/Navbar';
 import Footer from '../Components/Footer/Footer';
+import {
+    Container,
+    Paper,
+    Typography,
+    Card,
+    CardContent,
+    IconButton,
+    Box,
+    Button,
+    Divider,
+    Grid,
+    CardMedia
+} from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 
 const Cart = () => {
     const { getCart, removeFromCart, updateQuantity } = useContext(CartContext);
@@ -21,61 +38,100 @@ const Cart = () => {
     return (
         <>
             <Navbar />
+            <Container maxWidth="lg" sx={{ my: 4 }}>
+                <Typography variant="h4" component="h1" gutterBottom fontWeight="bold">
+                    Carrito de Compras
+                </Typography>
 
-            <div className="container my-4">
-                <h1 className="h3 fw-bold mb-4">Carrito de Compras</h1>
                 {cart.length === 0 ? (
-                    <p>No hay productos en el carrito.</p>
+                    <Paper sx={{ p: 3, textAlign: 'center' }}>
+                        <Typography variant="h6" color="text.secondary">
+                            No hay productos en el carrito
+                        </Typography>
+                    </Paper>
                 ) : (
-                    <>
+                    <Box>
                         {cart.map((item) => (
-                            <div key={item.id} className="d-flex justify-content-between align-items-center border-bottom py-3">
-                                <div className="d-flex align-items-center">
-                                    <img 
-                                        src={item.image} 
-                                        alt={item.title} 
-                                        className="me-3" 
-                                        style={{ width: '60px', height: '60px', objectFit: 'contain' }}
-                                    />
-                                    <div>
-                                        <h5 className="mb-1">{item.title}</h5>
-                                        <div className="text-primary small">
-                                            <button onClick={() => removeFromCart(item.id)} className="btn btn-link btn-sm p-0 me-3">
-                                                Eliminar
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="d-flex align-items-center">
-                                    <button 
-                                        className="btn btn-outline-secondary btn-sm me-2" 
-                                        onClick={() => handleQuantityChange(item, -1)}
-                                    >−</button>
-                                    <span className="mx-2">{item.quantity || 1}</span>
-                                    <button 
-                                        className="btn btn-outline-secondary btn-sm ms-2" 
-                                        onClick={() => handleQuantityChange(item, 1)}
-                                    >+</button>
-                                    <div className="ms-4 fw-semibold">
-                                        ${(item.price * (item.quantity || 1)).toFixed(2)}
-                                    </div>
-                                </div>
-                            </div>
+                            <Card key={item.id} sx={{ mb: 2, boxShadow: 2 }}>
+                                <CardContent>
+                                    <Grid container spacing={2} alignItems="center">
+                                        <Grid item xs={12} sm={3}>
+                                            <CardMedia
+                                                component="img"
+                                                image={item.image}
+                                                alt={item.title}
+                                                sx={{ 
+                                                    width: 100,
+                                                    height: 100,
+                                                    objectFit: 'contain',
+                                                    margin: 'auto'
+                                                }}
+                                            />
+                                        </Grid>
+                                        <Grid item xs={12} sm={4}>
+                                            <Typography variant="h6" component="div">
+                                                {item.title}
+                                            </Typography>
+                                        </Grid>
+                                        <Grid item xs={12} sm={3}>
+                                            <Box display="flex" alignItems="center" justifyContent="center">
+                                                <IconButton 
+                                                    size="small"
+                                                    onClick={() => handleQuantityChange(item, -1)}
+                                                >
+                                                    <RemoveIcon />
+                                                </IconButton>
+                                                <Typography sx={{ mx: 2 }}>
+                                                    {item.quantity || 1}
+                                                </Typography>
+                                                <IconButton 
+                                                    size="small"
+                                                    onClick={() => handleQuantityChange(item, 1)}
+                                                >
+                                                    <AddIcon />
+                                                </IconButton>
+                                            </Box>
+                                        </Grid>
+                                        <Grid item xs={12} sm={2}>
+                                            <Box display="flex" alignItems="center" justifyContent="space-between">
+                                                <Typography variant="h6" color="primary">
+                                                    ${(item.price * (item.quantity || 1)).toFixed(2)}
+                                                </Typography>
+                                                <IconButton 
+                                                    color="error"
+                                                    onClick={() => removeFromCart(item.id)}
+                                                >
+                                                    <DeleteOutlineIcon />
+                                                </IconButton>
+                                            </Box>
+                                        </Grid>
+                                    </Grid>
+                                </CardContent>
+                            </Card>
                         ))}
-                        <div className="d-flex justify-content-end mt-4">
-                            <div className="text-end">
-                                <h4>Total: ${calculateTotal().toFixed(2)}</h4>
-                                <button className="btn btn-primary mt-2">
-                                    Proceder al pago
-                                </button>
-                            </div>
-                        </div>
-                    </>
+                        <Divider sx={{ my: 3 }} />
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, alignItems: 'center' }}>
+                            <Typography variant="h5">
+                                Total: ${calculateTotal().toFixed(2)}
+                            </Typography>
+                            <Button 
+                                variant="contained" 
+                                size="large" 
+                                startIcon={<ShoppingCartCheckoutIcon />}
+                                sx={{ 
+                                    backgroundColor: 'primary.main',
+                                    '&:hover': {
+                                        backgroundColor: 'primary.dark',
+                                    }
+                                }}
+                            >
+                                Proceder al pago
+                            </Button>
+                        </Box>
+                    </Box>
                 )}
-            </div>
-
-            <Footer/>
+            </Container>
+            <Footer />
         </>
     );
 };
