@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
+import { useContext } from 'react';
+import { CartContext } from '../../../Context/CartContext';
 import { useFetch } from "../../../hooks/UseFetch.js";
 import { Typography, Card, CardContent, CardMedia, Grid, Box, Paper, Button } from "@mui/material";
 import Comentarios from "./Comentarios.jsx";
-import { CartContext } from "../../../Context/CartContext.jsx";
-import { useContext } from 'react';
 
 
 const ProductDetail = () => {
