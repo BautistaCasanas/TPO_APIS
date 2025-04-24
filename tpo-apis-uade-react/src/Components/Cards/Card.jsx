@@ -17,7 +17,7 @@ const Card = ({ id, title, description, price, image }) => {
         <>
         {/*Quiero una card con estilos Con estilos lo quiero con boostrap*/}
 
-        <div className="card" key={id}>
+        <div className="card mb-4" key={id}>
             <Link to={`/product/${id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
             <img src={image} className="card-img-top" alt="..." />
             </Link> 
