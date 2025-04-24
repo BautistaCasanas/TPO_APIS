@@ -9,11 +9,12 @@ import { useContext } from 'react';
 const ProductDetail = () => {
     const { id } = useParams();
     const { data: product, loading, error } = useFetch(`http://localhost:3000/products/${id}`);
+    const { addToCart } = useContext(CartContext)
 
     if (loading) return <p>Cargando producto...</p>;
     if (error) return <p>Error al cargar el producto</p>;
 
-    const { addToCart } = useContext(CartContext)
+
     const addProduct = () => {
         let item = {
             id: product.id,
