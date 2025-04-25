@@ -18,6 +18,9 @@ function App() {
               <Route path="/" element={<Home/>} />
               <Route path="/home" element={<Home/>} />
               <Route path="/productos" element={<Productos/>} />
+              {/* //Todo: Crear ruta protegida para el pago de carrito  y crear el componente de la autenticacion y crear el componente checkout.
+              <Route path="/checkout" element={<protectedRoute><Cart/>}</protectedRoute> /> 
+              // */}
               <Route path="/carrito" element={<Cart/>} />
               <Route path="/perfil" element={<Perfil/>} />
               <Route path="/product/:id" element={<DetalleProducto/>} />
