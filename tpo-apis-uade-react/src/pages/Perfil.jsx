@@ -100,7 +100,7 @@ function Perfil() {
                             sx={{ mt: 3 }}
                             type="submit"
                         >
-                            Guardar Cambios
+                            Guardar Perfil
                         </Button>
                     </Box>
                 </Paper>
