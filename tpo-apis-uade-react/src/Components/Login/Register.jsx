@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { 
     Container, 
     Box, 
@@ -7,35 +7,37 @@ import {
     TextField, 
     Button, 
     IconButton, 
-    InputAdornment,
-    Alert,
-    Snackbar
+    InputAdornment 
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import { UserContext } from '../../Context/UserContext';
 import Navbar from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
-import { useFetch } from '../../hooks/UseFetch';
+import usePost from '../../Hooks/UsePost';
 
-const Login = () => {
+const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [formData, setFormData] = useState({
+        nombre: '',
         email: '',
-        password: ''
+        password: '',
+        confirmPassword: ''
     });
     const [errors, setErrors] = useState({
+        nombre: '',
         email: '',
-        password: ''
+        password: '',
+        confirmPassword: ''
     });
-    const [showError, setShowError] = useState(false);
     const navigate = useNavigate();
-    const { login } = useContext(UserContext);
-    const { data: userInfo, error, loading } = useFetch("http://localhost:3000/profile");
-    
 
-    const validateField = (name, value) => {
+    const validateField = (name, value, allValues = formData) => {
         switch (name) {
+            case 'nombre':
+                if (!value) return 'El nombre es requerido';
+                if (value.length < 3) return 'El nombre debe tener al menos 3 caracteres';
+                return '';
             case 'email':
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if (!value) return 'El email es requerido';
@@ -45,6 +47,10 @@ const Login = () => {
                 if (!value) return 'La contraseña es requerida';
                 if (value.length < 6) return 'La contraseña debe tener al menos 6 caracteres';
                 return '';
+            case 'confirmPassword':
+                if (!value) return 'Debe confirmar la contraseña';
+                if (value !== allValues.password) return 'Las contraseñas no coinciden';
+                return '';
             default:
                 return '';
         }
@@ -52,23 +58,33 @@ const Login = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
+        const newFormData = {
+            ...formData,
             [name]: value
-        }));
+        };
+        
+        setFormData(newFormData);
+        
+        // Validar el campo actual
         setErrors(prev => ({
             ...prev,
-            [name]: validateField(name, value)
+            [name]: validateField(name, value, newFormData),
+            // Si estamos cambiando la contraseña, revalidar confirmPassword
+            ...(name === 'password' && {
+                confirmPassword: validateField('confirmPassword', newFormData.confirmPassword, newFormData)
+            })
         }));
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         
         // Validar todos los campos antes de enviar
         const newErrors = {
+            nombre: validateField('nombre', formData.nombre),
             email: validateField('email', formData.email),
-            password: validateField('password', formData.password)
+            password: validateField('password', formData.password),
+            confirmPassword: validateField('confirmPassword', formData.confirmPassword)
         };
         
         setErrors(newErrors);
@@ -78,20 +94,9 @@ const Login = () => {
             return;
         }
 
+        usePost("perfiles",newErrors)
 
 
-        try {
-            // Simulo verificación
-            if (formData.email === userInfo.email) {
-                login(userInfo);
-                navigate('/home');
-            } else {
-                setShowError(true);
-            }
-        } catch (error) {
-            console.error('Error during login:', error);
-            setShowError(true);
-        }
     };
 
     return (
@@ -104,13 +109,28 @@ const Login = () => {
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
+                        marginBottom: 8
                     }}
                 >
                     <Paper elevation={3} sx={{ p: 4, width: '100%' }}>
                         <Typography component="h1" variant="h5" sx={{ mb: 3, textAlign: 'center' }}>
-                            Iniciar Sesión
+                            Registro
                         </Typography>
                         <Box component="form" onSubmit={handleSubmit}>
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                id="nombre"
+                                label="Nombre completo"
+                                name="nombre"
+                                autoComplete="name"
+                                autoFocus
+                                value={formData.nombre}
+                                onChange={handleChange}
+                                error={!!errors.nombre}
+                                helperText={errors.nombre}
+                            />
                             <TextField
                                 margin="normal"
                                 required
@@ -119,7 +139,6 @@ const Login = () => {
                                 label="Email"
                                 name="email"
                                 autoComplete="email"
-                                autoFocus
                                 value={formData.email}
                                 onChange={handleChange}
                                 error={!!errors.email}
@@ -133,7 +152,6 @@ const Login = () => {
                                 label="Contraseña"
                                 type={showPassword ? 'text' : 'password'}
                                 id="password"
-                                autoComplete="current-password"
                                 value={formData.password}
                                 onChange={handleChange}
                                 error={!!errors.password}
@@ -148,7 +166,33 @@ const Login = () => {
                                             >
                                                 {showPassword ? <VisibilityOff /> : <Visibility />}
                                             </IconButton>
-                                        </InputAdornment>  
+                                        </InputAdornment>
+                                    ),
+                                }}
+                            />
+                            <TextField
+                                margin="normal"
+                                required
+                                fullWidth
+                                name="confirmPassword"
+                                label="Confirmar Contraseña"
+                                type={showConfirmPassword ? 'text' : 'password'}
+                                id="confirmPassword"
+                                value={formData.confirmPassword}
+                                onChange={handleChange}
+                                error={!!errors.confirmPassword}
+                                helperText={errors.confirmPassword}
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="end">
+                                            <IconButton
+                                                aria-label="toggle confirm password visibility"
+                                                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                                edge="end"
+                                            >
+                                                {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                                            </IconButton>
+                                        </InputAdornment>
                                     ),
                                 }}
                             />
@@ -158,35 +202,22 @@ const Login = () => {
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
                             >
-                                Iniciar Sesión
+                                Registrarse
                             </Button>
                             <Button
                                 fullWidth
                                 variant="text"
-                                onClick={() => navigate('/register')}
+                                onClick={() => navigate('/login')}
                             >
-                                ¿No tienes cuenta? Regístrate
+                                ¿Ya tienes cuenta? Inicia sesión
                             </Button>
                         </Box>
                     </Paper>
                 </Box>
-                <Snackbar
-                    open={showError}
-                    autoHideDuration={6000}
-                    onClose={() => setShowError(false)}
-                >
-                    <Alert 
-                        onClose={() => setShowError(false)} 
-                        severity="error"
-                        sx={{ width: '100%' }}
-                    >
-                        Credenciales inválidas
-                    </Alert>
-                </Snackbar>
             </Container>
             <Footer />
         </>
     );
 };
 
-export default Login;
+export default Register;
