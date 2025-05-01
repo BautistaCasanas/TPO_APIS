@@ -1,14 +1,18 @@
 import React from 'react';
 import { Carousel } from 'react-bootstrap';
-import { Box } from '@mui/material';
+import { Box,CircularProgress } from '@mui/material';
 import { useFetch } from '../../hooks/UseFetch';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Banner = () => {
   const { data: banners, loading, error } = useFetch('http://localhost:3000/banners');
 
-  if (loading) return <div>Cargando...</div>;
-  if (error) return <div>Error al cargar</div>;
+  if (error) return <Alert severity="error">Error al cargar el banner</Alert>;
+  if (loading) return (
+    <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
+      <CircularProgress />
+    </Box>
+  );
 
   return (
     <Box sx={{ width: '100%', marginBottom: 4 }}>

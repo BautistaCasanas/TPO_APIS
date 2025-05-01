@@ -1,6 +1,6 @@
 import React from 'react';
 import { Carousel } from 'react-bootstrap';
-import { Box, Grid, Card, CardMedia, CardContent, Typography } from '@mui/material';
+import { Box, Grid, Card, CardMedia, CardContent, Typography, CircularProgress } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useFetch } from '../../hooks/UseFetch';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -8,8 +8,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const ProductCarousel = () => {
   const { data: products, error, loading } = useFetch("http://localhost:3000/products");
 
-  if (error) return <Box sx={{ textAlign: 'center', py: 4 }}>Error al cargar los productos</Box>;
-  if (loading) return <Box sx={{ textAlign: 'center', py: 4 }}>Cargando...</Box>;
+  if (error) return <Alert severity="error">Error al cargar los productos</Alert>;
+  if (loading) return (
+    <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
+      <CircularProgress />
+    </Box>
+  );
 
   // Agrupar productos de 3 en 3
   const groupedProducts = [];

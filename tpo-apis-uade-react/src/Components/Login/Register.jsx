@@ -32,6 +32,7 @@ const Register = () => {
     });
     const navigate = useNavigate();
 
+
     const validateField = (name, value, allValues = formData) => {
         switch (name) {
             case 'nombre':
@@ -94,7 +95,11 @@ const Register = () => {
             return;
         }
 
-        usePost("perfiles",newErrors)
+        usePost("perfiles",newErrors);
+        // try{
+        // }catch(error){
+        //     console.log(error);
+        // }
 
 
     };
