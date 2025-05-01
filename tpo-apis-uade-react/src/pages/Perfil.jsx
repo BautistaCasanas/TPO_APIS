@@ -38,16 +38,16 @@ import Footer from '../Components/Footer/Footer.jsx';
                     </div>
                 </div>
                 {/* Form para editar el perfil */} 
-                {/* <div className="card">
+                <div className="card">
                     <div className="card-body">
                         <h2 className="card-title">Editar Información</h2>
-                        <form onSubmit={handleFormSubmit}>
+                        <form>
                             <div className="mb-3">
                                 <label className="form-label">Nombre:</label>
                                 <input
                                     type="text"
                                     name="name"
-                                    value={formData.name}
+                                    value={userInfo.name}
                                     // onChange={handleInputChange}
                                     className="form-control"
                                 />
@@ -57,7 +57,7 @@ import Footer from '../Components/Footer/Footer.jsx';
                                 <input
                                     type="email"
                                     name="email"
-                                    value={formData.email}
+                                    value={userInfo.email}
                                     // onChange={handleInputChange}
                                     className="form-control"
                                 />
@@ -67,7 +67,7 @@ import Footer from '../Components/Footer/Footer.jsx';
                                 <input
                                     type="text"
                                     name="phone"
-                                    value={formData.phone}
+                                    value={userInfo.phone}
                                     // onChange={handleInputChange}
                                     className="form-control"
                                 />
@@ -77,7 +77,7 @@ import Footer from '../Components/Footer/Footer.jsx';
                             </button>
                         </form>
                     </div>
-                </div> */}
+                </div>
             </div>
 
             <Footer/>
