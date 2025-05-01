@@ -2,86 +2,112 @@ import React, { useState } from 'react';
 import Navbar from '../Components/Navbar/Navbar';
 import { useFetch } from '../hooks/UseFetch.js';
 import Footer from '../Components/Footer/Footer.jsx';
+import { 
+    Container, 
+    Paper, 
+    Typography, 
+    Grid, 
+    Avatar, 
+    TextField, 
+    Button, 
+    Box,
+    CircularProgress,
+    Alert
+} from '@mui/material';
 
-    function Perfil() {
-        
+function Perfil() {
+    const { data: userInfo, error, loading } = useFetch("http://localhost:3000/profile");
+    
+    if (loading) return (
+        <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+            <CircularProgress />
+        </Box>
+    );
+    
+    if (error) return (
+        <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+            <Alert severity="error">Error al cargar la información del usuario</Alert>
+        </Box>
+    );
 
-        const { data: userInfo, error, loading } = useFetch("http://localhost:3000/profile"); //TODO: Traer desde el local storage
-        if (error) return <div>Error al cargar la información del usuario</div>;
-        if (loading) return <div>Cargando...</div>;
-
-        return (
-            <>
+    return (
+        <>
             <Navbar/>
+            <Container maxWidth="md" sx={{ mt: 5, mb: 5 }}>
+                <Typography variant="h4" component="h1" gutterBottom>
+                    Perfil
+                </Typography>
+                
+                <Paper elevation={3} sx={{ p: 3, mb: 3 }}>
+                    <Typography variant="h5" gutterBottom>
+                        Información de Usuario
+                    </Typography>
+                    <Grid container spacing={3} alignItems="center">
+                        <Grid item xs={12} md={4} sx={{ textAlign: 'center' }}>
+                            <Avatar
+                                src={userInfo.image}
+                                alt={userInfo.name}
+                                sx={{ width: 150, height: 150, margin: 'auto' }}
+                            />
+                        </Grid>
+                        <Grid item xs={12} md={8}>
+                            <Typography variant="body1" sx={{ mb: 1 }}>
+                                <strong>Nombre:</strong> {userInfo.name}
+                            </Typography>
+                            <Typography variant="body1" sx={{ mb: 1 }}>
+                                <strong>Email:</strong> {userInfo.email}
+                            </Typography>
+                            <Typography variant="body1">
+                                <strong>Teléfono:</strong> {userInfo.phone}
+                            </Typography>
+                        </Grid>
+                    </Grid>
+                </Paper>
 
-
-            <div className="container mt-5">
-                <h1 className="mb-4">Perfil</h1>
-                <div className="card mb-4">
-                    <div className="card-body">
-                        <h2 className="card-title">Información de Usuario</h2>
-                        <div className="row align-items-center">
-                            <div className="col-md-4 text-center">
-                                <img
-                                    src={userInfo.image}
-                                    alt="User"
-                                    className="img-fluid rounded-circle mb-3"
-                                    style={{ width: '150px', height: '150px' }}
-                                />
-                            </div>
-                            <div className="col-md-8">
-                                <p><strong>Nombre:</strong> {userInfo.name}</p>
-                                <p><strong>Email:</strong> {userInfo.email}</p>
-                                <p><strong>Teléfono:</strong> {userInfo.phone}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {/* Form para editar el perfil */} 
-                <div className="card">
-                    <div className="card-body">
-                        <h2 className="card-title">Editar Información</h2>
-                        <form>
-                            <div className="mb-3">
-                                <label className="form-label">Nombre:</label>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    value={userInfo.name}
-                                    // onChange={handleInputChange}
-                                    className="form-control"
-                                />
-                            </div>
-                            <div className="mb-3">
-                                <label className="form-label">Email:</label>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    value={userInfo.email}
-                                    // onChange={handleInputChange}
-                                    className="form-control"
-                                />
-                            </div>
-                            <div className="mb-3">
-                                <label className="form-label">Teléfono:</label>
-                                <input
-                                    type="text"
-                                    name="phone"
-                                    value={userInfo.phone}
-                                    // onChange={handleInputChange}
-                                    className="form-control"
-                                />
-                            </div>
-                            <button type="submit" className="btn btn-primary">
-                                Guardar Cambios
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
+                <Paper elevation={3} sx={{ p: 3 }}>
+                    <Typography variant="h5" gutterBottom>
+                        Editar Información
+                    </Typography>
+                    <Box component="form" noValidate sx={{ mt: 2 }}>
+                        <TextField
+                            fullWidth
+                            label="Nombre"
+                            name="name"
+                            value={userInfo.name}
+                            margin="normal"
+                            variant="outlined"
+                        />
+                        <TextField
+                            fullWidth
+                            label="Email"
+                            name="email"
+                            type="email"
+                            value={userInfo.email}
+                            margin="normal"
+                            variant="outlined"
+                        />
+                        <TextField
+                            fullWidth
+                            label="Teléfono"
+                            name="phone"
+                            value={userInfo.phone}
+                            margin="normal"
+                            variant="outlined"
+                        />
+                        <Button 
+                            variant="contained" 
+                            color="primary" 
+                            sx={{ mt: 3 }}
+                            type="submit"
+                        >
+                            Guardar Perfil
+                        </Button>
+                    </Box>
+                </Paper>
+            </Container>
             <Footer/>
-            </>
-        );
-};
+        </>
+    );
+}
+
 export default Perfil;

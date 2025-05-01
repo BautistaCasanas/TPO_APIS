@@ -1,94 +1,57 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Grid, Box } from '@mui/material';
-import { ArrowForward, ArrowBack } from '@mui/icons-material';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import IconButton from '@mui/material/IconButton';
+import React from 'react';
+import { Carousel } from 'react-bootstrap';
+import { Box, Grid, Card, CardMedia, CardContent, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useFetch } from '../../hooks/UseFetch';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 const ProductCarousel = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  
   const { data: products, error, loading } = useFetch("http://localhost:3000/products");
 
+  if (error) return <Box sx={{ textAlign: 'center', py: 4 }}>Error al cargar los productos</Box>;
+  if (loading) return <Box sx={{ textAlign: 'center', py: 4 }}>Cargando...</Box>;
 
-  if (error) return <div>Error al cargar los productos</div>;
-  if (loading) return <div>Cargando...</div>;
-
-  //  3 productos sig
-  const nextSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex + 3 < products.length ? prevIndex + 3 : 0
-    );
-  };
-
-  // 3 productos prev
-  const prevSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex - 3 >= 0 ? prevIndex - 3 : Math.floor(products.length / 3) * 3
-    );
-  };
-
-  if (products.length === 0) {
-    return <p>Cargando productos...</p>;
+  // Agrupar productos de 3 en 3
+  const groupedProducts = [];
+  for (let i = 0; i < products.length; i += 3) {
+    groupedProducts.push(products.slice(i, i + 3));
   }
 
   return (
-    <Box sx={{ position: 'relative', width: '100%' }}>
-      <IconButton
-            onClick={prevSlide}
-            sx={{
-            position: 'absolute',
-            top: '50%',
-            left: 50,
-            transform: 'translateY(-50%)',
-            }}
-        >
-    <ArrowBackIosIcon fontSize="small" />
-  </IconButton>
-
-      <Grid container spacing={2} justifyContent="center">
-        {products
-          .slice(currentIndex, currentIndex + 3) // Mostrar de a 3 productos
-          .map((product) => (
-            <Grid item xs={12} sm={4} key={product.id}>
-                <Link to={`/product/${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-              <Box
-                sx={{
-                  textAlign: 'center',
-                  borderRadius: '8px',
-                  boxShadow: 3,
-                  overflow: 'hidden',
-                }}
-              >
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  style={{ width: '100%', height: 'auto' }}
-                />
-                <Box sx={{ p: 2 }}>
-                  <h3>{product.name}</h3>
-                  <p>{product.description}</p>
-                  <p><strong>${product.price}</strong></p>
-                </Box>
-              </Box>
-              </Link>
+    <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
+      <Carousel slide interval={3000} variant='dark' indicators={false}>
+        {groupedProducts.map((group, index) => (
+          <Carousel.Item key={index}>
+            <Grid container spacing={3} justifyContent={"center"} mb={1}>
+              {group.map((product) => (
+                <Grid key={product.id}>
+                  <Link to={`/product/${product.id}`} style={{ textDecoration: 'none' }}>
+                    <Card sx={{boxShadow: 3 , '&:hover': {transform: 'translateY(-3px)', transition: 'transform 0.3s ease-in-out'}}}>
+                      <CardMedia
+                        component="img"
+                        height="200"
+                        image={product.image}
+                        alt={product.name}
+                      />
+                      <CardContent>
+                        <Typography variant="h6" gutterBottom>
+                          {product.name}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary" gutterBottom>
+                          {product.description}
+                        </Typography>
+                        <Typography variant="h6" color="primary">
+                          ${product.price}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                </Grid>
+              ))}
             </Grid>
-          ))}
-      </Grid>
-
-      <IconButton
-    onClick={nextSlide}
-    sx={{
-      position: 'absolute',
-      top: '50%',
-      right: 50,
-      transform: 'translateY(-50%)',
-    }}
-  >
-    <ArrowForwardIosIcon fontSize="small" />
-  </IconButton>
-  
+          </Carousel.Item>
+        ))}
+      </Carousel>
     </Box>
   );
 };

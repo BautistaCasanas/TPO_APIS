@@ -1,43 +1,102 @@
-
 import React, { useState } from 'react';
 import ProductsList from '../Components/Products/ProductsList/ProductsList';
 import Navbar from '../Components/Navbar/Navbar';
 import Footer from '../Components/Footer/Footer';
+import { 
+    Container, 
+    Paper, 
+    TextField, 
+    FormControl, 
+    Select, 
+    MenuItem, 
+    InputLabel,
+    Box,
+    Button,
+    IconButton,
+    InputAdornment
+} from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import ClearIcon from '@mui/icons-material/Clear';
 
 const Productos = () => {
     const [busqueda, setBusqueda] = useState('');
     const [filtro, setFiltro] = useState('');
 
+    const limpiarFiltros = () => {
+        setBusqueda('');
+        setFiltro('');
+    };
+
     return (
         <>
-        <Navbar/>
+            <Navbar/>
+            <Container maxWidth="lg">
+                <Paper elevation={1} sx={{ 
+                    p: 2, 
+                    my: 3,
+                    backgroundColor: '#fff',
+                    borderRadius: 2
+                }}>
+                    <Box sx={{ 
+                        display: 'flex', 
+                        gap: 2,
+                        flexWrap: 'wrap',
+                        alignItems: 'center'
+                    }}>
+                        <TextField
+                            variant="outlined"
+                            placeholder="Buscar productos..."
+                            value={busqueda}
+                            onChange={(e) => setBusqueda(e.target.value)}
+                            sx={{ flexGrow: 1 }}
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <SearchIcon color="action" />
+                                    </InputAdornment>
+                                ),
+                                endAdornment: busqueda && (
+                                    <InputAdornment position="end">
+                                        <IconButton onClick={() => setBusqueda('')} size="small">
+                                            <ClearIcon />
+                                        </IconButton>
+                                    </InputAdornment>
+                                )
+                            }}
+                        />
+                        <FormControl sx={{ minWidth: 200 }}>
+                            <InputLabel>Categoría</InputLabel>
+                            <Select
+                                value={filtro}
+                                onChange={(e) => setFiltro(e.target.value)}
+                                label="Categoría"
+                                startAdornment={
+                                    <InputAdornment position="start">
+                                        <FilterListIcon color="action" />
+                                    </InputAdornment>
+                                }
+                            >
+                                <MenuItem value="">Todas las categorías</MenuItem>
+                                <MenuItem value="clothing">Ropa</MenuItem>
+                                <MenuItem value="electronics">Tecnología</MenuItem>
+                            </Select>
+                        </FormControl>
+                        {(busqueda || filtro) && (
+                            <Button 
+                                variant="outlined" 
+                                onClick={limpiarFiltros}
+                                startIcon={<ClearIcon />}
+                            >
+                                Limpiar filtros
+                            </Button>
+                        )}
+                    </Box>
+                </Paper>
 
-        <div className='container mx-auto p-4'>
-            <h1 className='text-2xl font-bold mb-4'>Productos</h1>
-            <div className='flex items-center mb-4'>
-                <input
-                    type="text"
-                    placeholder="Buscar producto..."
-                    className='border-2 border-gray-300 rounded p-2'
-                    value={busqueda}
-                    onChange={(e) => setBusqueda(e.target.value)}
-                />
-                <select
-                    value={filtro}
-                    onChange={(e) => setFiltro(e.target.value)}
-                    className='border-2 border-gray-300 rounded p-2 ml-2'
-                >
-                    <option value="">Todas las categorías</option>
-                    <option value="clothing">Ropa</option>
-                    <option value="electronics">Tecnología</option>
-                </select>
-                <button onClick={() => {setFiltro('');setBusqueda('')}} className='btn btn-primary'>Limpiar Filtros</button>
-            </div>
-
-            <ProductsList busqueda={busqueda} filtro={filtro} />
-        </div>
-
-        <Footer/>
+                <ProductsList busqueda={busqueda} filtro={filtro} />
+            </Container>
+            <Footer/>
         </>
     );
 };

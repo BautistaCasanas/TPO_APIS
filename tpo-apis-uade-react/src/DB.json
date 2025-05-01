@@ -5,7 +5,7 @@
     "email": "johndoe@email.com",
     "phone": "123-456-7890",
     "address": "123 Main St, City, Country",
-    "role":"admin"
+    "role": "admin"
   },
   "users": [
     {
@@ -15,7 +15,7 @@
       "email": "johndoe@email.com",
       "phone": "123-456-7890",
       "address": "123 Main St, City, Country",
-      "role":"admin"
+      "role": "admin"
     }
   ],
   "products": [
@@ -132,6 +132,34 @@
       "rating": 1,
       "text": "Muy malo",
       "date": "2024-04-24"
+    },
+    {
+      "id": "36b0",
+      "productId": "1",
+      "user": "Usuario Anónimo",
+      "rating": 5,
+      "text": "Que bueno",
+      "date": "2025-04-24"
+    }
+  ],
+  "banners": [
+    {
+      "id": "1",
+      "image": "https://images.unsplash.com/photo-1607082350899-7e105aa886ae",
+      "title": "Ofertas Especiales",
+      "description": "Hasta 50% de descuento"
+    },
+    {
+      "id": "2",
+      "image": "https://plus.unsplash.com/premium_photo-1725075088693-1c51b6084294?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "title": "Nueva Coleccion",
+      "description": "Ultimas tendencias"
+    },
+    {
+      "id": "3",
+      "image": "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da",
+      "title": "Envio Gratis",
+      "description": "En compras superiores a $100000"
     }
   ]
 }
