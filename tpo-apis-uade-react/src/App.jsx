@@ -10,6 +10,7 @@ import Login from "./Components/Login/Login";
 import Register from "./Components/Login/Register";
 import {  UserProvider } from "./Context/UserContext";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
+import Checkout from "./Components/Checkout/Checkout";
 
 function App() { 
   return (
@@ -27,6 +28,7 @@ function App() {
 
 
                 <Route path="/perfil" element={<ProtectedRoute><Perfil/></ProtectedRoute>} />
+                <Route path="/checkout" element={<ProtectedRoute><Checkout/></ProtectedRoute>} />
                 <Route path="/dashboard" element={<ProtectedRoute><Dashboard/></ProtectedRoute>} />
                 <Route path="/dashboard/products" element={<ProtectedRoute><Dashboard/></ProtectedRoute>} />
 
