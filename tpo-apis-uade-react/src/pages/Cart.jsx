@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { CartContext } from '../Context/CartContext';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../Components/Navbar/Navbar';
 import Footer from '../Components/Footer/Footer';
 import {
@@ -19,10 +20,13 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
+// import { redirect } from 'react-router-dom';
 
 const Cart = () => {
     const { getCart, removeFromCart, updateQuantity } = useContext(CartContext);
     const cart = getCart();
+
+    const navigate = useNavigate();
 
     const handleQuantityChange = (item, delta) => {
         const newQuantity = (item.quantity || 1) + delta;
@@ -118,6 +122,7 @@ const Cart = () => {
                                 variant="contained" 
                                 size="large" 
                                 startIcon={<ShoppingCartCheckoutIcon />}
+                                onClick={() => navigate('/checkout')}
                                 sx={{ 
                                     backgroundColor: 'primary.main',
                                     '&:hover': {
