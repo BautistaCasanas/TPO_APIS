@@ -1,31 +1,47 @@
 import { useParams } from "react-router-dom";
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { CartContext } from '../../../Context/CartContext';
 import { useFetch } from "../../../hooks/UseFetch.js";
-import { Typography, Card, CardContent, CardMedia, Grid, Box, Paper, Button } from "@mui/material";
+import { Typography, CardMedia, Grid, Box, Paper, Button } from "@mui/material";
 import Comentarios from "./Comentarios.jsx";
-
 
 const ProductDetail = () => {
     const { id } = useParams();
     const { data: product, loading, error } = useFetch(`http://localhost:3000/products/${id}`);
-    const { addToCart } = useContext(CartContext)
+    const { addToCart } = useContext(CartContext);
+    const [currentStock, setCurrentStock] = useState(0);
+
+    useEffect(() => {
+        if (product) {
+            setCurrentStock(product.stock);
+        }
+    }, [product]);
+
+    const fetchCurrentStock = async () => {
+        try {
+            const response = await fetch(`http://localhost:3000/products/${id}`);
+            const data = await response.json();
+            setCurrentStock(data.stock);
+        } catch (error) {
+            console.error('Error fetching stock:', error);
+        }
+    };
 
     if (loading) return <p>Cargando producto...</p>;
     if (error) return <p>Error al cargar el producto</p>;
 
-
-    const addProduct = () => {
+    const addProduct = async () => {
         let item = {
             id: product.id,
             name: product.name,  
             description: product.description,
             price: product.price,
-            image: product.image
+            image: product.image,
+            stock: currentStock
         };
-        addToCart(item);
+        await addToCart(item);
+        fetchCurrentStock(); // Actualizar el stock después de agregar al carrito
     }
-
 
     return (
         <Box sx={{ maxWidth: 1200, margin: '0 auto', padding: 2 }}>
@@ -54,9 +70,15 @@ const ProductDetail = () => {
                                 Categoría: {product.category}
                             </Typography>
                             <Typography variant="subtitle1" gutterBottom>
-                                Stock disponible: {product.stock} unidades
+                                Stock disponible: {currentStock} unidades
                             </Typography>
-                            <Button onClick={addProduct} variant="contained" >Agregar</Button>
+                            <Button 
+                                onClick={addProduct} 
+                                variant="contained"
+                                disabled={currentStock <= 0}
+                            >
+                                {currentStock > 0 ? 'Agregar' : 'Sin stock'}
+                            </Button>
                         </Box>
                     </Grid>
                 </Grid>
