@@ -19,6 +19,8 @@ import {
 } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import ProductForm from '../ProductsManagment/ProductForm';
+
 
 const Navbar = () => {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -26,6 +28,8 @@ const Navbar = () => {
     const { isLogged, logout } = useContext(UserContext);
     const cartCount = getCartCount();
     const { data: userInfo, error, loading } = useFetch("http://localhost:3000/profile");
+    const [openProductForm, setOpenProductForm] = useState(false);
+
     
     const isUserLogged = isLogged();
 
@@ -36,7 +40,22 @@ const Navbar = () => {
     const handleClose = () => {
         setAnchorEl(null);
     };
-
+    const handleSaveProduct = async (productData) => {
+        const userData = JSON.parse(localStorage.getItem('user'));
+        try {
+            await fetch("http://localhost:3000/products", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    ...productData,
+                    userId: userData.id
+                })
+            });
+            setOpenProductForm(false);
+        } catch (error) {
+            console.error('Error al guardar el producto:', error);
+        }
+    };
     
 
     return (
@@ -71,6 +90,13 @@ const Navbar = () => {
                             to="/productos"
                         >
                             Productos
+                        </Button>
+                        <Button 
+                            color="inherit"
+                            onClick={() => setOpenProductForm(true)}
+                            sx={{ ml: 1 }}
+                        >
+                            Publicar
                         </Button>
 
                         <IconButton 
@@ -118,7 +144,7 @@ const Navbar = () => {
                                     Mi perfil
                                 </MenuItem>,
                                 <MenuItem key="dashboard" component={Link} to="/dashboard" onClick={handleClose}>
-                                    Configuración
+                                    Gestión de Productos
                                 </MenuItem>,
                                 <MenuItem 
                                     key="logout"
@@ -139,6 +165,12 @@ const Navbar = () => {
                     </Box>
                 </Toolbar>
             </Container>
+            <ProductForm 
+                open={openProductForm}
+                onClose={() => setOpenProductForm(false)}
+                onSave={handleSaveProduct}
+                initialData={null}
+            />
         </AppBar>
     );
 };

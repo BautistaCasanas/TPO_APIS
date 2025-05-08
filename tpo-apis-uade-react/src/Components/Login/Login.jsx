@@ -16,7 +16,6 @@ import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../Context/UserContext';
 import Navbar from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
-import { useFetch } from '../../hooks/UseFetch';
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -31,8 +30,6 @@ const Login = () => {
     const [showError, setShowError] = useState(false);
     const navigate = useNavigate();
     const { login } = useContext(UserContext);
-    const { data: userInfo, error, loading } = useFetch("http://localhost:3000/profile");
-    
 
     const validateField = (name, value) => {
         switch (name) {
@@ -64,26 +61,27 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        // Validar todos los campos antes de enviar
+    
         const newErrors = {
             email: validateField('email', formData.email),
             password: validateField('password', formData.password)
         };
-        
+    
         setErrors(newErrors);
-
-        // Si hay errores, no continuar con el envío
+    
         if (Object.values(newErrors).some(error => error !== '')) {
             return;
         }
-
-
-
+    
         try {
-            // Simulo verificación
-            if (formData.email === userInfo.email) {
-                login(userInfo);
+            // Consultar usuarios en db.json
+            const response = await fetch(`http://localhost:3000/users?email=${formData.email}`);
+            const users = await response.json();
+            
+            const user = users[0]; // Obtener el primer usuario que coincida con el email
+
+            if (user && user.password === formData.password) {
+                login(user);
                 navigate('/home');
             } else {
                 setShowError(true);

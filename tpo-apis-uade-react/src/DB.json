@@ -9,13 +9,34 @@
   },
   "users": [
     {
-      "id": "1",
+      "id": 1,
       "name": "John Doe",
       "image": "https://via.placeholder.com/150",
       "email": "johndoe@email.com",
       "phone": "123-456-7890",
       "address": "123 Main St, City, Country",
-      "role": "admin"
+      "role": "admin",
+      "password": "123456"
+    },
+    {
+      "id": 2,
+      "name": "Jane Smith",
+      "image": "https://via.placeholder.com/150",
+      "email": "jane@email.com",
+      "phone": "987-654-3210",
+      "address": "456 Elm St, City, Country",
+      "role": "user",
+      "password": "112233"
+    },
+    {
+      "id": 3,
+      "name": "Alice Johnson",
+      "image": "https://via.placeholder.com/150",
+      "email": "alice@email.com",
+      "phone": "555-555-5555",
+      "address": "789 Oak St, City, Country",
+      "role": "user",
+      "password": "666666"
     }
   ],
   "products": [
@@ -23,10 +44,11 @@
       "id": "1",
       "name": "Product 1",
       "description": "Description of Product 1",
-      "price": 10.99,
+      "price": "11.99",
       "image": "https://dummyimage.com/300x200/28a745/ffffff&text=Product+1",
-      "category": "electronics",
-      "stock": 5
+      "category": "electronica",
+      "stock": 5,
+      "userId": 1
     },
     {
       "id": "2",
@@ -34,8 +56,9 @@
       "description": "Description of Product 2",
       "price": 20.99,
       "image": "https://dummyimage.com/300x200/28a745/ffffff&text=Product+2",
-      "category": "clothing",
-      "stock": 100
+      "category": "ropa",
+      "stock": 100,
+      "userId": 2
     },
     {
       "id": "3",
@@ -43,8 +66,9 @@
       "description": "Description of Product 3",
       "price": 30.99,
       "image": "https://dummyimage.com/300x200/28a745/ffffff&text=Product+3",
-      "category": "clothing",
-      "stock": 100
+      "category": "ropa",
+      "stock": 100,
+      "userId": 1
     },
     {
       "id": "4",
@@ -52,8 +76,9 @@
       "description": "Description of Product 4",
       "price": 40.99,
       "image": "https://dummyimage.com/300x200/28a745/ffffff&text=Product+4",
-      "category": "electronics",
-      "stock": 100
+      "category": "electronica",
+      "stock": 100,
+      "userId": 2
     },
     {
       "id": "5",
@@ -61,8 +86,9 @@
       "description": "Description of Product 5",
       "price": 50.99,
       "image": "https://dummyimage.com/300x200/28a745/ffffff&text=Product+5",
-      "category": "clothing",
-      "stock": 100
+      "category": "ropa",
+      "stock": 100,
+      "userId": 1
     },
     {
       "id": "6",
@@ -70,8 +96,9 @@
       "description": "Description of Product 6",
       "price": 60.99,
       "image": "https://dummyimage.com/300x200/28a745/ffffff&text=Product+6",
-      "category": "electronics",
-      "stock": 100
+      "category": "electronica",
+      "stock": 100,
+      "userId": 2
     },
     {
       "id": "7",
@@ -79,8 +106,9 @@
       "description": "Description of Product 7",
       "price": 70.99,
       "image": "https://dummyimage.com/300x200/28a745/ffffff&text=Product+7",
-      "category": "clothing",
-      "stock": 100
+      "category": "ropa",
+      "stock": 100,
+      "userId": 3
     },
     {
       "id": "8",
@@ -88,8 +116,9 @@
       "description": "Description of Product 8",
       "price": 80.99,
       "image": "https://dummyimage.com/300x200/28a745/ffffff&text=Product+8",
-      "category": "electronics",
-      "stock": 100
+      "category": "electronica",
+      "stock": 100,
+      "userId": 3
     }
   ],
   "comments": [
