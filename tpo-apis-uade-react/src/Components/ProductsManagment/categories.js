@@ -5,5 +5,6 @@ export const categories = [
     { id: 'deportes', label: 'Deportes' },
     { id: 'juguetes', label: 'Juguetes' },
     { id: 'libros', label: 'Libros' },
+    { id: 'belleza', label: 'Belleza' },
     { id: 'otros', label: 'Otros' }
 ];
