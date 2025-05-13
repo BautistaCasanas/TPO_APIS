@@ -9,7 +9,7 @@
   },
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "name": "John Doe",
       "image": "https://via.placeholder.com/150",
       "email": "johndoe@email.com",
@@ -19,7 +19,7 @@
       "password": "123456"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Jane Smith",
       "image": "https://via.placeholder.com/150",
       "email": "jane@email.com",
@@ -29,7 +29,7 @@
       "password": "112233"
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Alice Johnson",
       "image": "https://via.placeholder.com/150",
       "email": "alice@email.com",
@@ -48,7 +48,7 @@
       "image": "https://dummyimage.com/300x200/28a745/ffffff&text=Product+1",
       "category": "electronica",
       "stock": 5,
-      "userId": 1
+      "userId": "1"
     },
     {
       "id": "2",
@@ -163,20 +163,13 @@
       "date": "2024-04-24"
     },
     {
-      "id": "36b0",
+      "id": "f2a6",
       "productId": "1",
-      "user": "Usuario Anónimo",
-      "rating": 5,
-      "text": "Que bueno",
-      "date": "2025-04-24"
-    },
-    {
-      "id": "909c",
-      "productId": "1",
-      "user": "Usuario Anónimo",
-      "rating": 2,
-      "text": "Hola",
-      "date": "2025-05-07"
+      "user": "John Doe",
+      "userId": "1",
+      "rating": 3,
+      "text": "buenisimo",
+      "date": "2025-05-13"
     }
   ],
   "banners": [

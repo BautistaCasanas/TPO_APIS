@@ -2,73 +2,78 @@ import {
     Box, Button, CircularProgress, IconButton, Paper,
     Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
     TextField, Typography
-  } from "@mui/material";
-  import EditIcon from "@mui/icons-material/Edit";
-  import DeleteIcon from "@mui/icons-material/Delete";
-  import ProductForm from "./ProductForm";
-  import { useState, useEffect } from "react";
-  
-  function ProductManagement() {
+} from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ProductForm from "./ProductForm";
+import { useState, useEffect, useContext } from "react";
+import { UserContext } from "../../Context/UserContext";
+
+function ProductManagement() {
     const [openForm, setOpenForm] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [refresh, setRefresh] = useState(false);
-    const [currentUserId, setCurrentUserId] = useState(null);
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-  
-    // Obtener el ID del usuario actual desde localStorage
+    const { auth } = useContext(UserContext);
+
+    // Obtener los productos del usuario usando el token
     useEffect(() => {
-      const userData = JSON.parse(localStorage.getItem('user'));
-      setCurrentUserId(userData?.id);
-    }, []);
-  
-    // Obtener los productos del usuario
-    useEffect(() => {
-      if (!currentUserId) return;
-  
-      setLoading(true);
-      fetch(`http://localhost:3000/products?userId=${currentUserId}`)
-        .then(res => {
-          if (!res.ok) throw new Error("Error al cargar los productos");
-          return res.json();
-        })
-        .then(data => setProducts(data))
-        .catch(err => setError(err.message))
-        .finally(() => setLoading(false));
-    }, [refresh, currentUserId]);
-  
+        if (!auth?.token || !auth?.id) return;
+
+        setLoading(true);
+        fetch(`http://localhost:3000/products?userId=${auth.id}`)
+            .then(res => {
+                if (!res.ok) throw new Error("Error al cargar los productos");
+                return res.json();
+            })
+            .then(data => setProducts(data))
+            .catch(err => setError(err.message))
+            .finally(() => setLoading(false));
+    }, [refresh, auth]);
+
     const handleSave = async (productData) => {
-      if (selectedProduct) {
-        // Editar producto
-        await fetch(`http://localhost:3000/products/${selectedProduct.id}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            ...productData,
-            id: selectedProduct.id,
-            userId: currentUserId
-          })
-        });
-      } else {
-        // Crear producto nuevo
-        await fetch("http://localhost:3000/products", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            ...productData,
-            userId: currentUserId
-          })
-        });
-      }
-      setRefresh(!refresh);
+        if (selectedProduct) {
+            // Editar producto
+            await fetch(`http://localhost:3000/products/${selectedProduct.id}`, {
+                method: "PUT",
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${auth.token}`
+                },
+                body: JSON.stringify({
+                    ...productData,
+                    id: selectedProduct.id,
+                    userId: auth.id
+                })
+            });
+        } else {
+            // Crear producto nuevo
+            await fetch("http://localhost:3000/products", {
+                method: "POST",
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${auth.token}`
+                },
+                body: JSON.stringify({
+                    ...productData,
+                    userId: auth.id
+                })
+            });
+        }
+        setRefresh(!refresh);
+        setOpenForm(false);
     };
-  
+
     const handleDelete = async (id) => {
-      await fetch(`http://localhost:3000/products/${id}`, {
-        method: "DELETE"
-      });
-      setRefresh(!refresh);
+        await fetch(`http://localhost:3000/products/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${auth.token}`
+            }
+        });
+        setRefresh(!refresh);
     };
   
     if (error) return <Typography color="error">{error}</Typography>;

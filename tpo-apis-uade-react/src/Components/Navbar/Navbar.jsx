@@ -13,7 +13,6 @@ import {
     Menu,
     MenuItem,
     Container,
-    Avatar,
     Divider,
     Box
 } from '@mui/material';
@@ -21,17 +20,14 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import ProductForm from '../ProductsManagment/ProductForm';
 
-
 const Navbar = () => {
     const [anchorEl, setAnchorEl] = useState(null);
-    const { getCartCount } = useContext(CartContext);
-    const { isLogged, logout } = useContext(UserContext);
-    const cartCount = getCartCount();
-    const { data: userInfo, error, loading } = useFetch("http://localhost:3000/profile");
     const [openProductForm, setOpenProductForm] = useState(false);
+    const { getCartCount } = useContext(CartContext);
+    const { auth, logout } = useContext(UserContext);
+    const cartCount = getCartCount();
 
-    
-    const isUserLogged = isLogged();
+    //console.log('auth', auth.name);
 
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
@@ -40,15 +36,18 @@ const Navbar = () => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
     const handleSaveProduct = async (productData) => {
-        const userData = JSON.parse(localStorage.getItem('user'));
         try {
             await fetch("http://localhost:3000/products", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${auth.token}`
+                },
                 body: JSON.stringify({
                     ...productData,
-                    userId: userData.id
+                    userId: auth.id
                 })
             });
             setOpenProductForm(false);
@@ -56,7 +55,6 @@ const Navbar = () => {
             console.error('Error al guardar el producto:', error);
         }
     };
-    
 
     return (
         <AppBar position="static">
@@ -77,27 +75,22 @@ const Navbar = () => {
                     </Typography>
 
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Button 
-                            color="inherit" 
-                            component={Link} 
-                            to="/home"
-                        >
+                        <Button color="inherit" component={Link} to="/home">
                             Inicio
                         </Button>
-                        <Button 
-                            color="inherit" 
-                            component={Link} 
-                            to="/productos"
-                        >
+                        <Button color="inherit" component={Link} to="/productos">
                             Productos
                         </Button>
-                        <Button 
-                            color="inherit"
-                            onClick={() => setOpenProductForm(true)}
-                            sx={{ ml: 1 }}
-                        >
-                            Publicar
-                        </Button>
+
+                        {auth?.token && (
+                            <Button 
+                                color="inherit"
+                                onClick={() => setOpenProductForm(true)}
+                                sx={{ ml: 1 }}
+                            >
+                                Publicar
+                            </Button>
+                        )}
 
                         <IconButton 
                             color="inherit" 
@@ -132,31 +125,32 @@ const Navbar = () => {
                                 horizontal: 'right',
                             }}
                         >
-                            {isUserLogged ? [
-                                <MenuItem key="user-info" sx={{ flexDirection: 'column', alignItems: 'flex-start' }}>
-                                    <Typography variant="subtitle1">{userInfo.name}</Typography>
-                                    <Typography variant="caption" color="text.secondary">
-                                        {userInfo.email}
-                                    </Typography>
-                                </MenuItem>,
-                                <Divider key="divider" />,
-                                <MenuItem key="profile" component={Link} to="/perfil" onClick={handleClose}>
-                                    Mi perfil
-                                </MenuItem>,
-                                <MenuItem key="dashboard" component={Link} to="/dashboard" onClick={handleClose}>
-                                    Gestión de Productos
-                                </MenuItem>,
-                                <MenuItem 
-                                    key="logout"
-                                    onClick={() => {
-                                        logout();
-                                        handleClose();
-                                    }} 
-                                    sx={{ color: 'error.main' }}
-                                >
-                                    Cerrar sesión
-                                </MenuItem>
-                            ] : (
+                            {auth?.token ? (
+                                <Box>
+                                    <MenuItem sx={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+                                        <Typography variant="subtitle1">{auth.name}</Typography>
+                                        <Typography variant="caption" color="text.secondary">
+                                            Rol: {auth.role}
+                                        </Typography>
+                                    </MenuItem>
+                                    <Divider />
+                                    <MenuItem component={Link} to="/perfil" onClick={handleClose}>
+                                        Mi perfil
+                                    </MenuItem>
+                                    <MenuItem component={Link} to="/dashboard" onClick={handleClose}>
+                                        Gestión de Productos
+                                    </MenuItem>
+                                    <MenuItem 
+                                        onClick={() => {
+                                            logout();
+                                            handleClose();
+                                        }} 
+                                        sx={{ color: 'error.main' }}
+                                    >
+                                        Cerrar sesión
+                                    </MenuItem>
+                                </Box>
+                            ) : (
                                 <MenuItem component={Link} to="/login" onClick={handleClose}>
                                     Iniciar sesión
                                 </MenuItem>

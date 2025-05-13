@@ -4,9 +4,8 @@ import { useContext } from 'react';
 import { UserContext } from '../../Context/UserContext';
 
 function ProtectedRoute({ children }) {
-    const { isLogged} = useContext(UserContext);
-    let isAuthenticated = isLogged();
-
+    const { auth} = useContext(UserContext);
+    let isAuthenticated = auth?.token;
   if (!isAuthenticated) {
 
     return <Navigate to="/login" replace />;

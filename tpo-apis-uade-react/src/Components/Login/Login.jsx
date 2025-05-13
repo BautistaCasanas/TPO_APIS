@@ -48,15 +48,7 @@ const Login = () => {
     };
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value
-        }));
-        setErrors(prev => ({
-            ...prev,
-            [name]: validateField(name, value)
-        }));
+        setFormData({...formData, [e.target.name]: e.target.value });
     };
 
     const handleSubmit = async (e) => {
@@ -75,14 +67,14 @@ const Login = () => {
     
         try {
             // Consultar usuarios en db.json
-            const response = await fetch(`http://localhost:3000/users?email=${formData.email}`);
+            const response = await fetch(`http://localhost:3000/users`);
             const users = await response.json();
             
-            const user = users[0]; // Obtener el primer usuario que coincida con el email
-
-            if (user && user.password === formData.password) {
-                login(user);
-                navigate('/home');
+            const found = users.find(user => user.email === formData.email && user.password === formData.password);
+            let tokenHardcoded = { token: 'tokenHardcoded', role: found.role, id: found.id, name: found.name }; // Token simulado
+            if (found) {
+                login(tokenHardcoded);
+                navigate('/'); // Redirigir a la página principal
             } else {
                 setShowError(true);
             }
