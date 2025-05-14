@@ -1,17 +1,35 @@
 {
-  "profile": {
-    "name": "John Doe",
-    "image": "https://via.placeholder.com/150",
-    "email": "johndoe@email.com",
-    "phone": "123-456-7890",
-    "address": "123 Main St, City, Country",
-    "role": "admin"
-  },
+  "profile": [
+    {
+      "name": "John Doe",
+      "image": "https://i.pravatar.cc/150?img=12",
+      "email": "johndoe@email.com",
+      "phone": "123-456-7890",
+      "address": "123 Main St, City, Country",
+      "role": "admin"
+    },
+    {
+      "name": "Jane Smith",
+      "image": "https://i.pravatar.cc/150?img=20",
+      "email": "jane@email.com",
+      "phone": "987-654-3210",
+      "address": "456 Elm St, City, Country",
+      "role": "user"
+    },
+    {
+      "name": "Alice Johnson",
+      "image": "https://i.pravatar.cc/150?img=5",
+      "email": "alice@email.com",
+      "phone": "555-555-5555",
+      "address": "789 Oak St, City, Country",
+      "role": "user"
+    }
+  ],
   "users": [
     {
       "id": "1",
       "name": "John Doe",
-      "image": "https://via.placeholder.com/150",
+      "image": "https://i.pravatar.cc/150?img=12",
       "email": "johndoe@email.com",
       "phone": "123-456-7890",
       "address": "123 Main St, City, Country",
@@ -21,19 +39,19 @@
     {
       "id": "2",
       "name": "Jane Smith",
-      "image": "https://via.placeholder.com/150",
+      "image": "https://i.pravatar.cc/150?img=20",
       "email": "jane@email.com",
       "phone": "987-654-3210",
       "address": "456 Elm St, City, Country",
-      "role": "user",
+      "role": "admin",
       "password": "112233"
     },
     {
       "id": "3",
       "name": "Alice Johnson",
-      "image": "https://via.placeholder.com/150",
+      "image": "https://i.pravatar.cc/150?img=5",
       "email": "alice@email.com",
-      "phone": "555-555-5555",
+      "phone": "555-555-5568",
       "address": "789 Oak St, City, Country",
       "role": "user",
       "password": "666666"
@@ -108,7 +126,7 @@
       "image": "https://dummyimage.com/300x200/28a745/ffffff&text=Product+7",
       "category": "ropa",
       "stock": 100,
-      "userId": 3
+      "userId": 1
     },
     {
       "id": "8",
@@ -118,7 +136,7 @@
       "image": "https://dummyimage.com/300x200/28a745/ffffff&text=Product+8",
       "category": "electronica",
       "stock": 100,
-      "userId": 3
+      "userId": 2
     }
   ],
   "comments": [

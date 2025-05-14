@@ -40,7 +40,6 @@ function ProductManagement() {
                 method: "PUT",
                 headers: { 
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${auth.token}`
                 },
                 body: JSON.stringify({
                     ...productData,
@@ -54,7 +53,6 @@ function ProductManagement() {
                 method: "POST",
                 headers: { 
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${auth.token}`
                 },
                 body: JSON.stringify({
                     ...productData,
@@ -70,7 +68,6 @@ function ProductManagement() {
         await fetch(`http://localhost:3000/products/${id}`, {
             method: "DELETE",
             headers: {
-                "Authorization": `Bearer ${auth.token}`
             }
         });
         setRefresh(!refresh);

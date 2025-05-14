@@ -43,7 +43,6 @@ const Navbar = () => {
                 method: "POST",
                 headers: { 
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${auth.token}`
                 },
                 body: JSON.stringify({
                     ...productData,
@@ -82,7 +81,7 @@ const Navbar = () => {
                             Productos
                         </Button>
 
-                        {auth?.token && (
+                        {auth?.token && auth?.role === 'admin' && (
                             <Button 
                                 color="inherit"
                                 onClick={() => setOpenProductForm(true)}
@@ -137,9 +136,12 @@ const Navbar = () => {
                                     <MenuItem component={Link} to="/perfil" onClick={handleClose}>
                                         Mi perfil
                                     </MenuItem>
+
+                                    {auth?.token && auth?.role === 'admin' && (
                                     <MenuItem component={Link} to="/dashboard" onClick={handleClose}>
                                         Gestión de Productos
                                     </MenuItem>
+                                    )}
                                     <MenuItem 
                                         onClick={() => {
                                             logout();
