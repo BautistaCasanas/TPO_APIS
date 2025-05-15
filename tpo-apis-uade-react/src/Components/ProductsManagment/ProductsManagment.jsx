@@ -13,7 +13,7 @@ function ProductManagement() {
   const [refresh, setRefresh] = useState(false);
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState(''); //buscador
+  const [searchTerm, setSearchTerm] = useState(''); //buscadorgit 
   const { auth } = useContext(UserContext);
   const navigate = useNavigate();
 
