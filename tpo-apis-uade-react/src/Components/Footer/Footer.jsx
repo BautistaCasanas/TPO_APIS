@@ -16,7 +16,7 @@ const Footer = () => {
             <Typography variant="h6" className="footer-title" gutterBottom>
               MYSTORE
             </Typography>
-            <Typography variant="body2" className="footer-text">
+            <Typography className="footer-text">
               La mejor tienda el linea
             </Typography>
           </Box>
@@ -27,12 +27,12 @@ const Footer = () => {
               TIENDA
             </Typography>
             <Box className="footer-links">
-              <Typography className="footer-text">
+              <Link to="" className="footer-link">
                 Ofertas
-              </Typography>
-              <Typography className="footer-text">
+              </Link>
+              <Link to="/productos" className="footer-link">
                 Productos
-              </Typography>
+              </Link>
             </Box>
           </Box>
 
@@ -61,7 +61,7 @@ const Footer = () => {
                 mystore@gmail.com
               </Typography>
               <Typography className="footer-text">
-                11 2314-6290
+                0800 212-6464
               </Typography>
             </Box>
           </Box>

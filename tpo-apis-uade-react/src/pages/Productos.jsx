@@ -14,7 +14,8 @@ import {
     Box,
     Button,
     IconButton,
-    InputAdornment
+    InputAdornment,
+    Typography 
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
@@ -33,6 +34,15 @@ const Productos = () => {
         <>
             <Navbar/>
             <Container maxWidth="lg">
+                <Typography variant="h4" component="h2" 
+                    sx={{ 
+                        mt: 4, 
+                        mb: 2, 
+                        ml: 2,
+                        fontWeight: 'bold' 
+                    }}>
+                    Productos
+                </Typography>
                 <Paper elevation={0} sx={{ 
                     p: 2, 
                     my: 3,
@@ -46,7 +56,7 @@ const Productos = () => {
                     }}>
                         <TextField
                             variant="outlined"
-                            placeholder="Buscar productos..."
+                            placeholder="Buscar..."
                             value={busqueda}
                             onChange={(e) => setBusqueda(e.target.value)}
                             sx={{ flexGrow: 1 }}
