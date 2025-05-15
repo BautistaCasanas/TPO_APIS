@@ -1,7 +1,7 @@
 import { Box, Container, Typography, Button, Grid, Paper } from "@mui/material"
-import PersonIcon from "@mui/icons-material/Person"
-import FavoriteIcon from "@mui/icons-material/Favorite"
-import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism"
+import VerifiedIcon from "@mui/icons-material/Verified"
+import SecurityIcon from "@mui/icons-material/Security"
+import SupportAgentIcon from "@mui/icons-material/SupportAgent"
 import "./AboutSection.css"
 import { Link } from "react-router-dom"
 
@@ -34,7 +34,7 @@ const AboutSection = () => {
                 <Grid item xs={12} sm={6}>
                     <Paper className="info-card">
                     <Box className="icon-circle">
-                        <PersonIcon />
+                        <VerifiedIcon />
                     </Box>
                     <Typography variant="h6" className="card-title">
                         Calidad
@@ -49,7 +49,7 @@ const AboutSection = () => {
                 <Grid item xs={12} sm={6}>
                     <Paper className="info-card">
                     <Box className="icon-circle">
-                        <FavoriteIcon />
+                        <SecurityIcon />
                     </Box>
                     <Typography variant="h6" className="card-title">
                         Fácil y segura
@@ -64,7 +64,7 @@ const AboutSection = () => {
                 <Grid item xs={12} sm={6}>
                     <Paper className="info-card">
                     <Box className="icon-circle">
-                        <VolunteerActivismIcon />
+                        <SupportAgentIcon />
                     </Box>
                     <Typography variant="h6" className="card-title">
                         Atención personalizada
