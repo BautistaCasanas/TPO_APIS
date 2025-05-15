@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { 
     Container, 
     Box, 
@@ -13,7 +13,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
-import usePost from '../../Hooks/UsePost';
+import { UserContext } from '../../Context/UserContext';
 
 const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -31,7 +31,7 @@ const Register = () => {
         confirmPassword: ''
     });
     const navigate = useNavigate();
-
+    const { login } = useContext(UserContext);
 
     const validateField = (name, value, allValues = formData) => {
         switch (name) {
@@ -40,10 +40,10 @@ const Register = () => {
                 if (value.length < 3) return 'El nombre debe tener al menos 3 caracteres';
                 return '';
             case 'email':
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                { const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if (!value) return 'El email es requerido';
                 if (!emailRegex.test(value)) return 'Email inválido';
-                return '';
+                return ''; }
             case 'password':
                 if (!value) return 'La contraseña es requerida';
                 if (value.length < 6) return 'La contraseña debe tener al menos 6 caracteres';
@@ -77,32 +77,48 @@ const Register = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        console.log('registra usuario');
-        // // Validar todos los campos antes de enviar
-        // const newErrors = {
-        //     nombre: validateField('nombre', formData.nombre),
-        //     email: validateField('email', formData.email),
-        //     password: validateField('password', formData.password),
-        //     confirmPassword: validateField('confirmPassword', formData.confirmPassword)
-        // };
-        
-        // setErrors(newErrors);
-
-        // // Si hay errores, no continuar con el envío
-        // if (Object.values(newErrors).some(error => error !== '')) {
-        //     return;
-        // }
-
-        // usePost("perfiles",newErrors);
-        // try{
-        // }catch(error){
-        //     console.log(error);
-        // }
-
-
+        // Validar todos los campos antes de enviar
+        const newErrors = {
+            nombre: validateField('nombre', formData.nombre),
+            email: validateField('email', formData.email),
+            password: validateField('password', formData.password),
+            confirmPassword: validateField('confirmPassword', formData.confirmPassword)
+        };
+        setErrors(newErrors);
+        if (Object.values(newErrors).some(error => error !== '')) {
+            return;
+        }
+        // POST a la API mockeada
+        try {
+            const userToRegister = {
+                name: formData.nombre,
+                email: formData.email,
+                password: formData.password,
+                role: 'user',
+                image: `https://i.pravatar.cc/150?u=${formData.email}`,
+                phone: '',
+                address: ''
+            };
+            const response = await fetch('http://localhost:3000/users', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(userToRegister)
+            });
+            if (!response.ok) throw new Error('Error al registrar usuario');
+            const savedUser = await response.json();
+            // Guardar en contexto y localStorage (login automático)
+            login({
+                token: 'tokenHardcoded',
+                role: savedUser.role,
+                id: savedUser.id,
+                name: savedUser.name
+            });
+            navigate('/');
+        } catch {
+            setErrors(prev => ({ ...prev, email: 'Error al registrar usuario' }));
+        }
     };
 
     return (
