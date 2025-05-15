@@ -20,27 +20,55 @@ function Perfil() {
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [editData, setEditData] = useState({ name: '', email: '', phone: '' });
+    const [editLoading, setEditLoading] = useState(false);
+    const [editSuccess, setEditSuccess] = useState(false);
 
     useEffect(() => {
         const fetchUserData = async () => {
             if (!auth?.id) return;
-            
             try {
                 const response = await fetch(`http://localhost:3000/users/${auth.id}`);
                 if (!response.ok) throw new Error('Error al cargar los datos del usuario');
-                
                 const data = await response.json();
                 setUserData(data);
+                setEditData({ name: data.name || '', email: data.email || '', phone: data.phone || '' });
             } catch (err) {
                 setError(err.message);
             } finally {
                 setLoading(false);
             }
         };
-
         fetchUserData();
     }, [auth?.id]);
-    
+
+    const handleEditChange = (e) => {
+        const { name, value } = e.target;
+        setEditData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleEditSubmit = async (e) => {
+        e.preventDefault();
+        setEditLoading(true);
+        setEditSuccess(false);
+        setError(null);
+        try {
+            const response = await fetch(`http://localhost:3000/users/${auth.id}` , {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ...userData, ...editData })
+            });
+            if (!response.ok) throw new Error('Error al actualizar el perfil');
+            const updated = await response.json();
+            setUserData(updated);
+            setEditSuccess(true);
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setEditLoading(false);
+        }
+    };
+
     if (loading) return (
         <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
             <CircularProgress />
@@ -91,40 +119,45 @@ function Perfil() {
                     <Typography variant="h5" gutterBottom>
                         Editar Información
                     </Typography>
-                    <Box component="form" noValidate sx={{ mt: 2 }}>
+                    <Box component="form" noValidate sx={{ mt: 2 }} onSubmit={handleEditSubmit}>
                         <TextField
                             fullWidth
                             label="Nombre"
                             name="name"
-                            value={userData.name}
+                            value={editData.name}
                             margin="normal"
                             variant="outlined"
+                            onChange={handleEditChange}
                         />
                         <TextField
                             fullWidth
                             label="Email"
                             name="email"
                             type="email"
-                            value={userData.email}
+                            value={editData.email}
                             margin="normal"
                             variant="outlined"
+                            onChange={handleEditChange}
                         />
                         <TextField
                             fullWidth
                             label="Teléfono"
                             name="phone"
-                            value={userData.phone}
+                            value={editData.phone}
                             margin="normal"
                             variant="outlined"
+                            onChange={handleEditChange}
                         />
                         <Button 
                             variant="contained" 
                             color="primary" 
                             sx={{ mt: 3 }}
                             type="submit"
+                            disabled={editLoading}
                         >
-                            Guardar Perfil
+                            {editLoading ? 'Guardando...' : 'Guardar Perfil'}
                         </Button>
+                        {editSuccess && <Alert severity="success" sx={{ mt: 2 }}>Perfil actualizado correctamente</Alert>}
                     </Box>
                 </Paper>
             </Container>
