@@ -13,6 +13,7 @@ function ProductManagement() {
   const [refresh, setRefresh] = useState(false);
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState(''); //buscadorgit 
   const { auth } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -35,6 +36,10 @@ function ProductManagement() {
     setRefresh(!refresh);
   };
 
+  const filteredProducts = products.filter(product =>
+    product.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   if (error) return <Typography color="error">{error}</Typography>;
 
   return (
@@ -44,6 +49,9 @@ function ProductManagement() {
           variant="outlined"
           placeholder="Buscar productos..."
           size="small"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          sx={{ width: '300px' }}
         />
         <Button
           variant="contained"
@@ -69,7 +77,7 @@ function ProductManagement() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {products.map((product) => (
+            {filteredProducts.map((product) => (
               <TableRow key={product.id}>
                 <TableCell>{product.id}</TableCell>
                 <TableCell>{product.name}</TableCell>
