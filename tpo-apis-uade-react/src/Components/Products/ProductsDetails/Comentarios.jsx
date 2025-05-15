@@ -64,8 +64,8 @@ const Comentarios = ({ productId }) => {
 
   return (
     <Box sx={{ maxWidth: 1200, margin: '0 auto', mt: 4 }}>
-      <Paper elevation={3} sx={{ p: 3, mb: 4 }}>
-        <Typography variant="h6" gutterBottom>
+      <Paper elevation={0} sx={{ p: 3, mb: 4 }}>
+        <Typography variant="h5" gutterBottom>
           Califica este producto
         </Typography>
         <form onSubmit={handleSubmitComment}>
@@ -94,7 +94,7 @@ const Comentarios = ({ productId }) => {
       </Paper>
 
       <Paper elevation={3} sx={{ p: 3 }}>
-        <Typography variant="h6" gutterBottom>
+        <Typography variant="h5" gutterBottom>
           Opiniones de usuarios
         </Typography>
         {comments.length === 0 ? (
