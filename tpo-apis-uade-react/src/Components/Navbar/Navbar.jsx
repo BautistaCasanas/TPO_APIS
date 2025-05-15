@@ -39,9 +39,9 @@ const Navbar = () => {
 
 
     return (
-        <AppBar position="static">
+        <AppBar position="static" sx={{height: 70, justifyContent: 'center'}}>
             <Container maxWidth="xl">
-                <Toolbar sx={{ justifyContent: "space-between" }}>
+                <Toolbar sx={{ justifyContent: "space-between"}}>
                     <Typography
                         variant="h6"
                         component={Link}

@@ -24,7 +24,7 @@ const Banner = () => {
               src={banner.image}
               alt={banner.title}
               style={{ 
-                height: '400px',
+                height: '91vh',
                 objectFit: 'cover'
               }}
             />

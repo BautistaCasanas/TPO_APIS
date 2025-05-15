@@ -23,6 +23,14 @@ const ProductCarousel = () => {
 
   return (
     <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
+      <Typography variant="h4" component="h2" 
+        sx={{ 
+          m: 7, 
+          fontWeight: 'bold', 
+          textAlign: 'center' 
+          }}>
+        Productos Destacados
+      </Typography>
       <Carousel slide interval={3000} variant='dark' indicators={false}>
         {groupedProducts.map((group, index) => (
           <Carousel.Item key={index}>
@@ -44,7 +52,7 @@ const ProductCarousel = () => {
                         <Typography variant="body2" color="text.secondary" gutterBottom>
                           {product.description}
                         </Typography>
-                        <Typography variant="h6" color="primary">
+                        <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
                           ${product.price}
                         </Typography>
                       </CardContent>
