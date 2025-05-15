@@ -45,7 +45,10 @@ const ProductDetail = () => {
 
     return (
         <Box sx={{ maxWidth: 1200, margin: '0 auto', padding: 2 }}>
-            <Paper elevation={3} sx={{ mb: 4 }}>
+            <Typography variant="h4" component="h2" sx={{ mt: 2, mb: 2, ml: 2, fontWeight: 'bold' }}>
+                Información del Producto
+            </Typography>
+            <Paper elevation={0} sx={{ mb: 4 }}>
                 <Grid container spacing={2} sx={{ p: 2 }}>
                     <Grid>
                         <CardMedia
@@ -60,7 +63,7 @@ const ProductDetail = () => {
                             <Typography variant="h4" component="h1" gutterBottom>
                                 {product.name}
                             </Typography>
-                            <Typography variant="h5" color="primary" gutterBottom>
+                            <Typography variant="h5" sx={{ fontWeight: 'bold' }} gutterBottom>
                                 ${product.price}
                             </Typography>
                             <Typography variant="body1" gutterBottom>
@@ -76,6 +79,17 @@ const ProductDetail = () => {
                                 onClick={addProduct} 
                                 variant="contained"
                                 disabled={currentStock <= 0}
+                                sx={{
+                                    backgroundColor: '#fff',
+                                    color: '#000', 
+                                    '&:hover': {
+                                        backgroundColor: '#999',
+                                        color: '#fff', 
+                                    },
+                                    '&:disabled': {
+                                        backgroundColor: '#999',
+                                        color: '#fff',
+                                }}}
                             >
                                 {currentStock > 0 ? 'Agregar' : 'Sin stock'}
                             </Button>

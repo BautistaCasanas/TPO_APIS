@@ -18,6 +18,7 @@ import {
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import { useNavigate } from 'react-router-dom';
+import "./Navbar.css"
 
 const Navbar = () => {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -38,28 +39,23 @@ const Navbar = () => {
 
 
     return (
-        <AppBar position="static">
+        <AppBar position="static" sx={{height: 70, justifyContent: 'center'}}>
             <Container maxWidth="xl">
-                <Toolbar>
+                <Toolbar sx={{ justifyContent: "space-between"}}>
                     <Typography
                         variant="h6"
                         component={Link}
                         to="/home"
-                        sx={{ 
-                            flexGrow: 1, 
-                            textDecoration: 'none', 
-                            color: 'inherit',
-                            fontWeight: 'bold' 
-                        }}
+                        className="navbar-logo"
                     >
                         MyStore
                     </Typography>
 
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Button color="inherit" component={Link} to="/home">
+                    <Box className="right-elements">
+                        <Button color="inherit" component={Link} to="/home" className="nav-link">
                             Inicio
                         </Button>
-                        <Button color="inherit" component={Link} to="/productos">
+                        <Button color="inherit" component={Link} to="/productos" className="nav-link">
                             Productos
                         </Button>
 
@@ -67,7 +63,7 @@ const Navbar = () => {
                             <Button 
                                 color="inherit"
                                 onClick={() => navigate('/publicar')}
-                                sx={{ ml: 1 }}
+                                className="nav-link"
                             >
                                 Publicar
                             </Button>
@@ -77,6 +73,7 @@ const Navbar = () => {
                             color="inherit" 
                             component={Link} 
                             to="/carrito"
+                            className="nav-icon"
                             sx={{ ml: 2 }}
                         >
                             <Badge badgeContent={cartCount} color="error">
@@ -88,6 +85,7 @@ const Navbar = () => {
                             size="large"
                             onClick={handleMenu}
                             color="inherit"
+                            className="nav-icon"
                             sx={{ ml: 1 }}
                         >
                             <AccountCircle />

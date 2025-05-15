@@ -48,7 +48,7 @@ const Card = ({ id, title, description, price, image }) => {
                 <Typography variant="subtitle1" component="h2" gutterBottom>
                     {title}
                 </Typography>
-                <Typography variant="h6" color="primary" gutterBottom>
+                <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
                     ${price.toLocaleString('es-AR')}
                 </Typography>
                 <Typography variant="body2" color="text.secondary" gutterBottom>
@@ -57,13 +57,24 @@ const Card = ({ id, title, description, price, image }) => {
                 <Box mt={2}>
                     <Button
                         variant="contained"
-                        color="primary"
                         fullWidth
                         onClick={addProduct}
                         startIcon={<ShoppingCartIcon />}
                         disabled={stock <= 0}
+                        sx={{
+                            backgroundColor: '#fff',
+                            color: '#000', 
+                            '&:hover': {
+                                backgroundColor: '#999',
+                                color: '#fff', 
+                            },
+                            '&:disabled': {
+                                backgroundColor: '#999',
+                                color: '#fff',
+                        }}}
                     >
                         {stock <= 0 ? 'Sin stock' : 'Agregar'}
+                        
                     </Button>
                 </Box>
             </CardContent>

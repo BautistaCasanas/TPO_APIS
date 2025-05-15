@@ -31,7 +31,7 @@ const CardProd = ({ id, title, description, price, image }) => {
                         <Typography variant="h6" color="primary">
                             ${price}
                         </Typography>
-                        <Button onClick={addProduct} variant="contained" color="primary" sx={{ mt: 2 }}>
+                        <Button onClick={addProduct} variant="contained" sx={{ mt: 2, backgroundColor: '#000', color: '#fff','&:hover': {backgroundColor: '#333',}}}>
                             Agregar al carrito
                         </Button>
                     </CardContent>

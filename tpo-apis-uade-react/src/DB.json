@@ -66,7 +66,7 @@
       "name": "Product 1",
       "description": "Description of Product 1",
       "price": "11.99",
-      "image": "https://dummyimage.com/300x200/28a745/ffffff&text=Product+1",
+      "image": "https://dummyimage.com/300x200/730101/ffffff.png&text=Product+1",
       "category": "electronica",
       "stock": 5,
       "userId": "1"
@@ -76,7 +76,7 @@
       "name": "Product 2",
       "description": "Description of Product 2",
       "price": 20.99,
-      "image": "https://dummyimage.com/300x200/28a745/ffffff&text=Product+2",
+      "image": "https://dummyimage.com/300x200/730101/ffffff.png&text=Product+2",
       "category": "ropa",
       "stock": 100,
       "userId": 2
@@ -86,7 +86,7 @@
       "name": "Product 3",
       "description": "Description of Product 3",
       "price": 30.99,
-      "image": "https://dummyimage.com/300x200/28a745/ffffff&text=Product+3",
+      "image": "https://dummyimage.com/300x200/730101/ffffff.png&text=Product+3",
       "category": "ropa",
       "stock": 100,
       "userId": 1
@@ -96,7 +96,7 @@
       "name": "Product 4",
       "description": "Description of Product 4",
       "price": 40.99,
-      "image": "https://dummyimage.com/300x200/28a745/ffffff&text=Product+4",
+      "image": "https://dummyimage.com/300x200/730101/ffffff.png&text=Product+4",
       "category": "electronica",
       "stock": 100,
       "userId": 2
@@ -106,7 +106,7 @@
       "name": "Product 5",
       "description": "Description of Product 5",
       "price": 50.99,
-      "image": "https://dummyimage.com/300x200/28a745/ffffff&text=Product+5",
+      "image": "https://dummyimage.com/300x200/730101/ffffff.png&text=Product+5",
       "category": "ropa",
       "stock": 100,
       "userId": 1
@@ -116,7 +116,7 @@
       "name": "Product 6",
       "description": "Description of Product 6",
       "price": 60.99,
-      "image": "https://dummyimage.com/300x200/28a745/ffffff&text=Product+6",
+      "image": "https://dummyimage.com/300x200/730101/ffffff.png&text=Product+6",
       "category": "electronica",
       "stock": 100,
       "userId": 2
@@ -126,7 +126,7 @@
       "name": "Product 7",
       "description": "Description of Product 7",
       "price": 70.99,
-      "image": "https://dummyimage.com/300x200/28a745/ffffff&text=Product+7",
+      "image": "https://dummyimage.com/300x200/730101/ffffff.png&text=Product+7",
       "category": "ropa",
       "stock": "100",
       "userId": "1"
@@ -136,7 +136,7 @@
       "name": "Product 8",
       "description": "Description of Product 8",
       "price": 80.99,
-      "image": "https://dummyimage.com/300x200/28a745/ffffff&text=Product+8",
+      "image": "https://dummyimage.com/300x200/730101/ffffff.png&text=Product+8",
       "category": "electronica",
       "stock": "8",
       "userId": "2"
