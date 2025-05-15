@@ -1,0 +1,90 @@
+.footer-container {
+    background-color: white;
+    color: #000;
+    margin-top: 75px;
+    border-top: 2px solid #eaeaea;
+}
+
+/* Contenedor principal de columnas con flexbox */
+.footer-columns-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+/* Cada columna individual */
+.footer-column {
+    flex: 1;
+    min-width: 150px;
+    max-width: calc(25% - 30px); /* 25% para 4 columnas con espacio para gap */
+}
+
+/* Estilos para dispositivos móviles */
+@media (max-width: 768px) {
+    .footer-column {
+        flex-basis: 100%;
+        max-width: 100%;
+    }
+}
+
+.footer-title {
+    font-weight: 600;
+    margin-bottom: 20px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.footer-text {
+    color: #333;
+    line-height: 1.6;
+    font-size: 25px;
+}
+
+.footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-link {
+    color: #000;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    display: block;
+}
+
+/* Sección inferior del footer */
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #eaeaea;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.footer-copyright {
+    color: #333;
+    font-size: 0.875rem;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.social-icons {
+    display: flex;
+    gap: 5px;
+}
+
+.social-icon {
+    color: #000;
+    transition: transform 0.2s ease;
+}
+
+
+/* Efecto de escala en hover para los iconos */
+.social-icon:hover {
+    transform: scale(1.2);
+    color: #000;
+    background-color: transparent !important; 
+}
