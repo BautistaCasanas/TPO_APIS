@@ -11,7 +11,8 @@ import Register from "./Components/Login/Register";
 import {  UserProvider } from "./Context/UserContext";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import Checkout from "./Components/Checkout/Checkout";
-
+import ProductForm from "./Components/ProductsManagment/ProductForm";
+import ProductUpload from "./pages/ProductUpload";
 function App() { 
   return (
     <>  
@@ -25,6 +26,7 @@ function App() {
                 <Route path="/product/:id" element={<DetalleProducto/>} />
                 <Route path="/login" element={<Login/>} />
                 <Route path="/register" element={<Register/>} />
+                <Route path="/publicar" element={<ProductUpload />} />
 
 
                 <Route path="/perfil" element={<ProtectedRoute><Perfil/></ProtectedRoute>} />

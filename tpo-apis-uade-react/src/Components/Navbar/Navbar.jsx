@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react';
-import { useFetch } from '../../hooks/UseFetch';
 import { Link } from 'react-router-dom';
 import { CartContext } from '../../Context/CartContext';
 import { UserContext } from '../../Context/UserContext';
@@ -18,11 +17,11 @@ import {
 } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import ProductForm from '../ProductsManagment/ProductForm';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
     const [anchorEl, setAnchorEl] = useState(null);
-    const [openProductForm, setOpenProductForm] = useState(false);
+    const navigate = useNavigate()
     const { getCartCount } = useContext(CartContext);
     const { auth, logout } = useContext(UserContext);
     const cartCount = getCartCount();
@@ -37,23 +36,6 @@ const Navbar = () => {
         setAnchorEl(null);
     };
 
-    const handleSaveProduct = async (productData) => {
-        try {
-            await fetch("http://localhost:3000/products", {
-                method: "POST",
-                headers: { 
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    ...productData,
-                    userId: auth.id
-                })
-            });
-            setOpenProductForm(false);
-        } catch (error) {
-            console.error('Error al guardar el producto:', error);
-        }
-    };
 
     return (
         <AppBar position="static">
@@ -84,7 +66,7 @@ const Navbar = () => {
                         {auth?.token && auth?.role === 'admin' && (
                             <Button 
                                 color="inherit"
-                                onClick={() => setOpenProductForm(true)}
+                                onClick={() => navigate('/publicar')}
                                 sx={{ ml: 1 }}
                             >
                                 Publicar
@@ -161,12 +143,6 @@ const Navbar = () => {
                     </Box>
                 </Toolbar>
             </Container>
-            <ProductForm 
-                open={openProductForm}
-                onClose={() => setOpenProductForm(false)}
-                onSave={handleSaveProduct}
-                initialData={null}
-            />
         </AppBar>
     );
 };
