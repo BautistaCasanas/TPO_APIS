@@ -33,11 +33,10 @@ const Productos = () => {
         <>
             <Navbar/>
             <Container maxWidth="lg">
-                <Paper elevation={1} sx={{ 
+                <Paper elevation={0} sx={{ 
                     p: 2, 
                     my: 3,
                     backgroundColor: '#fff',
-                    borderRadius: 2
                 }}>
                     <Box sx={{ 
                         display: 'flex', 
@@ -91,7 +90,7 @@ const Productos = () => {
                                 variant="outlined" 
                                 onClick={limpiarFiltros}
                                 startIcon={<ClearIcon />}
-                            >
+                                sx={{ height: 56 }}>
                                 Limpiar filtros
                             </Button>
                         )}
