@@ -24,7 +24,7 @@ import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 
 const Cart = () => {
     const { getCart, removeFromCart, updateQuantity } = useContext(CartContext);
-    const cart = getCart();
+    const cart = getCart(); //Trae el carrito del contexto
 
     const navigate = useNavigate();
 
