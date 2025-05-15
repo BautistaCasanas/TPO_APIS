@@ -1,0 +1,109 @@
+.about-container {
+    margin: 100px 0px;
+}
+
+.about-left-column {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+}
+
+.about-button {
+    background-color: #730101 !important;
+    color: white !important;
+    border-radius: 30px !important;
+    text-transform: none !important;
+    font-weight: 500 !important;
+    padding: 8px 20px !important;
+    font-size: 16px !important;
+    margin-bottom: 24px !important;
+    align-self: flex-start;
+}
+
+.about-title {
+    font-weight: 700 !important;
+    margin-bottom: 24px !important;
+    line-height: 1.2 !important;
+}
+
+.about-description {
+    line-height: 1.6 !important;
+}
+
+.cards-container {
+    padding: 16px;
+}
+
+.info-card {
+    background-color: #f8f9fa !important;
+    padding: 30px !important;
+    height: 100%;
+    border-radius: 12px !important;
+    box-shadow: none !important;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.icon-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #730101;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+}
+
+.icon-circle svg {
+    color: white;
+    font-size: 28px;
+}
+
+.card-title {
+    font-weight: 600 !important;
+    font-size: 20px !important;
+}
+
+.card-description {
+    color: #4a5568;
+    line-height: 1.5 !important;
+}
+
+.highlight-card {
+    background-color: #730101 !important;
+    color: white !important;
+    padding: 30px !important;
+    height: 100%;
+    border-radius: 12px !important;
+    box-shadow: none !important;
+    display: flex;
+    flex-direction: column;
+}
+
+.highlight-number {
+    font-size: 48px !important;
+    font-weight: 700 !important;
+    margin-bottom: 8px !important;
+}
+
+.highlight-text {
+    font-size: 18px !important;
+    margin-bottom: 24px !important;
+    line-height: 1.4 !important;
+}
+
+.highlight-button {
+    color: white !important;
+    border-color: white !important;
+    text-transform: none !important;
+    font-weight: 500 !important;
+    margin-top: auto !important;
+    align-self: flex-start;
+    border-radius: 4px !important;
+    text-decoration: none;
+}
+
+
