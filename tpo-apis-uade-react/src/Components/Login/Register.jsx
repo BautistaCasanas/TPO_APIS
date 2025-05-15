@@ -80,22 +80,23 @@ const Register = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         
-        // Validar todos los campos antes de enviar
-        const newErrors = {
-            nombre: validateField('nombre', formData.nombre),
-            email: validateField('email', formData.email),
-            password: validateField('password', formData.password),
-            confirmPassword: validateField('confirmPassword', formData.confirmPassword)
-        };
+        console.log('registra usuario');
+        // // Validar todos los campos antes de enviar
+        // const newErrors = {
+        //     nombre: validateField('nombre', formData.nombre),
+        //     email: validateField('email', formData.email),
+        //     password: validateField('password', formData.password),
+        //     confirmPassword: validateField('confirmPassword', formData.confirmPassword)
+        // };
         
-        setErrors(newErrors);
+        // setErrors(newErrors);
 
-        // Si hay errores, no continuar con el envío
-        if (Object.values(newErrors).some(error => error !== '')) {
-            return;
-        }
+        // // Si hay errores, no continuar con el envío
+        // if (Object.values(newErrors).some(error => error !== '')) {
+        //     return;
+        // }
 
-        usePost("perfiles",newErrors);
+        // usePost("perfiles",newErrors);
         // try{
         // }catch(error){
         //     console.log(error);
