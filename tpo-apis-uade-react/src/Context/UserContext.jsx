@@ -1,44 +1,37 @@
 import { createContext, useState, useEffect } from 'react';
-import { getLocalStorage, saveLocalStorage } from '../Hooks/LocalStorage';
 
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
+const [auth, setAuth] = useState(() => {
+        // Intentar recuperar los datos de autenticación del localStorage al iniciar
+        const savedAuth = localStorage.getItem('auth');
+        return savedAuth ? JSON.parse(savedAuth) : null;
+    });
 
+   
+    // Actualizar localStorage cuando cambie auth
     useEffect(() => {
-        const savedUser = getLocalStorage('user');
-        if (savedUser) {
-            setUser(savedUser);
+        if (auth) {
+            localStorage.setItem('auth', JSON.stringify(auth));
+        } else {
+            localStorage.removeItem('auth');
         }
-    }, []);
-    
-    const login = (userData) => {
-        setUser(userData);
-        saveLocalStorage('user', userData);
+    }, [auth]);
+
+     const login = (tokenData) => {
+        setAuth(tokenData);
     };
 
     const logout = () => {
-        setUser(null);
-        localStorage.removeItem('user'); // Eliminar completamente del localStorage
-    };
-    
-    const isLogged = () => {
-        return user !== null;
-    };
-
-    const updateUser = (newUserData) => {
-        setUser(newUserData);
-        saveLocalStorage('user', newUserData);
+        setAuth(null);
     };
 
     return (
         <UserContext.Provider value={{ 
-            user,
+            auth,
             login,
-            logout,
-            isLogged,
-            updateUser
+            logout
         }}>
             {children}
         </UserContext.Provider>

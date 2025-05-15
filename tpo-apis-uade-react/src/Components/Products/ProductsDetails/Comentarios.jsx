@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import {
   Typography,
   Rating,
@@ -9,15 +9,13 @@ import {
   Divider,
   Paper
 } from "@mui/material";
-import { getLocalStorage } from "../../../Hooks/LocalStorage";
+import { UserContext } from "../../../Context/UserContext";
 
 const Comentarios = ({ productId }) => {
   const [comment, setComment] = useState("");
   const [rating, setRating] = useState(0);
   const [comments, setComments] = useState([]);
-  {/*modificar porq no anda ¿traer del local storage?*/}
-  const currentUser = getLocalStorage('currentUser') || { username: 'Usuario Anónimo' };
-
+  const { auth } = useContext(UserContext);
 
 
   const fetchComments = async () => {
@@ -36,7 +34,8 @@ const Comentarios = ({ productId }) => {
 
     const newComment = {
       productId: (productId),
-      user: currentUser.username,
+      user: auth.name,
+      userId: auth.id,
       rating,
       text: comment,
       date: new Date().toISOString().split('T')[0]

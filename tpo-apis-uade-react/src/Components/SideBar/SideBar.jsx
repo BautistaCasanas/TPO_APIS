@@ -27,6 +27,7 @@ function Sidebar({ activeSection, onNavigate }) {
               Gestión de Productos
             </a>
           </li>
+          {/*
           <li className="nav-item">
             <a
               className={`nav-link ${activeSection === "users" ? "active" : ""}`}
@@ -49,6 +50,7 @@ function Sidebar({ activeSection, onNavigate }) {
               Gestión de Usuarios
             </a>
           </li>
+          */}
         </ul>
       </div>
     )

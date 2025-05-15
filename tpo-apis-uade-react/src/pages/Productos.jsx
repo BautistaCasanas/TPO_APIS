@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ProductsList from '../Components/Products/ProductsList/ProductsList';
 import Navbar from '../Components/Navbar/Navbar';
 import Footer from '../Components/Footer/Footer';
+import { categories } from '../Components/ProductsManagment/categories';
 import { 
     Container, 
     Paper, 
@@ -78,8 +79,11 @@ const Productos = () => {
                                 }
                             >
                                 <MenuItem value="">Todas las categorías</MenuItem>
-                                <MenuItem value="clothing">Ropa</MenuItem>
-                                <MenuItem value="electronics">Tecnología</MenuItem>
+                                {categories.map((category) => (
+                                    <MenuItem key={category.id} value={category.id}>
+                                        {category.label}
+                                    </MenuItem>
+                                ))}
                             </Select>
                         </FormControl>
                         {(busqueda || filtro) && (

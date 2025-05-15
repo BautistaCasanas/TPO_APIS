@@ -25,8 +25,6 @@ function Dashboard() {
     switch (activeSection) {
       case "products":
         return <ProductManagement />
-      case "users":
-        return <UserManagement />
       default:
         return <ProductManagement />
     }

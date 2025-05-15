@@ -1,76 +1,106 @@
-import { useFetch } from "../../Hooks/useFetch";
 import {
-    Box,
-    Button,
-    CircularProgress,
-    IconButton,
-    Paper,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    TextField,
-    Typography,
+  Box, Button, CircularProgress, IconButton, Paper,
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  TextField, Typography
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../Context/UserContext";
 
 function ProductManagement() {
-    const { data: products, error, loading } = useFetch("http://localhost:3000/products");
+  const [refresh, setRefresh] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [error, setError] = useState(null);
+  const { auth } = useContext(UserContext);
+  const navigate = useNavigate();
 
-    if (error) return <Typography color="error">Error al cargar los productos</Typography>;
-    if (loading) return <CircularProgress />;
+  useEffect(() => {
+    if (!auth?.token || !auth?.id) return;
 
-    return (
-        <Box p={3}>
-            <Box display="flex" justifyContent="space-between" mb={3}>
-                <TextField
-                    variant="outlined"
-                    placeholder="Buscar productos..."
+    fetch(`http://localhost:3000/products?userId=${auth.id}`)
+      .then(res => {
+        if (!res.ok) throw new Error("Error al cargar los productos");
+        return res.json();
+      })
+      .then(data => setProducts(data))
+      .catch(err => setError(err.message))
+  }, [refresh, auth]);
+
+  const handleDelete = async (id) => {
+    await fetch(`http://localhost:3000/products/${id}`, {
+      method: "DELETE"
+    });
+    setRefresh(!refresh);
+  };
+
+  if (error) return <Typography color="error">{error}</Typography>;
+
+  return (
+    <Box p={3}>
+      <Box display="flex" justifyContent="space-between" mb={3}>
+        <TextField
+          variant="outlined"
+          placeholder="Buscar productos..."
+          size="small"
+        />
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            navigate('/publicar'); // Redirección para nuevo producto
+          }}
+        >
+          Añadir Producto
+        </Button>
+      </Box>
+
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>ID</TableCell>
+              <TableCell>Nombre</TableCell>
+              <TableCell>Categoría</TableCell>
+              <TableCell>Stock</TableCell>
+              <TableCell>Precio</TableCell>
+              <TableCell>Acciones</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {products.map((product) => (
+              <TableRow key={product.id}>
+                <TableCell>{product.id}</TableCell>
+                <TableCell>{product.name}</TableCell>
+                <TableCell>{product.category}</TableCell>
+                <TableCell>{product.stock}</TableCell>
+                <TableCell>{product.price}</TableCell>
+                <TableCell>
+                  <IconButton
+                    color="primary"
                     size="small"
-                />
-                <Button variant="contained" color="primary" onClick={() => console.log("Añadir producto")}>
-                    Añadir Producto
-                </Button>
-            </Box>
-
-            <TableContainer component={Paper}>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>ID</TableCell>
-                            <TableCell>Nombre</TableCell>
-                            <TableCell>Categoría</TableCell>
-                            <TableCell>Stock</TableCell>
-                            <TableCell>Precio</TableCell>
-                            <TableCell>Acciones</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {products.map((product) => (
-                            <TableRow key={product.id}>
-                                <TableCell>{product.id}</TableCell>
-                                <TableCell>{product.name}</TableCell>
-                                <TableCell>{product.category}</TableCell>
-                                <TableCell>{product.stock}</TableCell>
-                                <TableCell>{product.price}</TableCell>
-                                <TableCell>
-                                    <IconButton color="primary" size="small" onClick={() => console.log("Editar producto")}>
-                                        <EditIcon />
-                                    </IconButton>
-                                    <IconButton color="error" size="small" onClick={()=>console.log("Producto Eliminado")} >
-                                        <DeleteIcon />
-                                    </IconButton>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        </Box>
-    );
+                    onClick={() => {
+                      navigate('/publicar', { state: { initialData: product } });
+                    }}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton
+                    color="error"
+                    size="small"
+                    onClick={() => handleDelete(product.id)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
+  );
 }
 
 export default ProductManagement;

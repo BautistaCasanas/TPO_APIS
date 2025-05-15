@@ -1,22 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { UserContext } from '../Context/UserContext';
 import Navbar from '../Components/Navbar/Navbar';
-import { useFetch } from '../hooks/UseFetch.js';
-import Footer from '../Components/Footer/Footer.jsx';
+import Footer from '../Components/Footer/Footer';
 import { 
     Container, 
     Paper, 
     Typography, 
     Grid, 
     Avatar, 
-    TextField, 
-    Button, 
     Box,
     CircularProgress,
-    Alert
+    Alert,
+    TextField,
+    Button,
 } from '@mui/material';
 
 function Perfil() {
-    const { data: userInfo, error, loading } = useFetch("http://localhost:3000/profile");
+    const { auth } = useContext(UserContext);
+    const [userData, setUserData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            if (!auth?.id) return;
+            
+            try {
+                const response = await fetch(`http://localhost:3000/users/${auth.id}`);
+                if (!response.ok) throw new Error('Error al cargar los datos del usuario');
+                
+                const data = await response.json();
+                setUserData(data);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUserData();
+    }, [auth?.id]);
     
     if (loading) return (
         <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
@@ -45,20 +68,20 @@ function Perfil() {
                     <Grid container spacing={3} alignItems="center">
                         <Grid item xs={12} md={4} sx={{ textAlign: 'center' }}>
                             <Avatar
-                                src={userInfo.image}
-                                alt={userInfo.name}
+                                src={userData.image}
+                                alt={userData.name}
                                 sx={{ width: 150, height: 150, margin: 'auto' }}
                             />
                         </Grid>
                         <Grid item xs={12} md={8}>
                             <Typography variant="body1" sx={{ mb: 1 }}>
-                                <strong>Nombre:</strong> {userInfo.name}
+                                <strong>Nombre:</strong> {userData.name}
                             </Typography>
                             <Typography variant="body1" sx={{ mb: 1 }}>
-                                <strong>Email:</strong> {userInfo.email}
+                                <strong>Email:</strong> {userData.email}
                             </Typography>
                             <Typography variant="body1">
-                                <strong>Teléfono:</strong> {userInfo.phone}
+                                <strong>Teléfono:</strong> {userData.phone}
                             </Typography>
                         </Grid>
                     </Grid>
@@ -73,7 +96,7 @@ function Perfil() {
                             fullWidth
                             label="Nombre"
                             name="name"
-                            value={userInfo.name}
+                            value={userData.name}
                             margin="normal"
                             variant="outlined"
                         />
@@ -82,7 +105,7 @@ function Perfil() {
                             label="Email"
                             name="email"
                             type="email"
-                            value={userInfo.email}
+                            value={userData.email}
                             margin="normal"
                             variant="outlined"
                         />
@@ -90,7 +113,7 @@ function Perfil() {
                             fullWidth
                             label="Teléfono"
                             name="phone"
-                            value={userInfo.phone}
+                            value={userData.phone}
                             margin="normal"
                             variant="outlined"
                         />
