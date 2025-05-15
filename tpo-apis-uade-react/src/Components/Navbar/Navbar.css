@@ -1,58 +1,76 @@
-/* Navbar general */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #ffffff;
-    padding: 1rem 2rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Logo */
-  .navbar-logo a {
-    font-size: 1.8rem;
-    font-weight: bold;
-    text-decoration: none;
-    color: #333333;
-  }
-  
-  /* Enlaces */
-  .navbar-links {
-    list-style: none;
-    display: flex;
-    gap: 2rem;
-  }
-  
-  .navbar-links li a {
-    text-decoration: none;
-    color: #555555;
-    font-size: 1.1rem;
-    transition: color 0.3s;
-  }
-  
-  .navbar-links li a:hover {
-    color: #ff6600;
-  }
-  
-  /* Carrito */
-  .navbar-cart a {
-    text-decoration: none;
-    color: #333333;
-    font-size: 1.2rem;
-    display: flex;
-    align-items: center;
-  }
-  
-  .navbar-cart a:hover {
-    color: #ff6600;
-  }
-
-/* Estilos adicionales específicos que no son cubiertos por Material-UI */
+/* Estilos generales del navbar */
 .MuiAppBar-root {
-    background-color: #1976d2;
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  box-shadow: none !important;
+  border-bottom: 1px solid #eaeaea;
 }
 
-/* Efecto hover para los botones */
-.MuiButton-root:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+/* Estilos para el logo */
+.navbar-logo {
+  text-decoration: none;
+  color: inherit;
+  font-weight: bold;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+}
+
+/* Estilos para los enlaces de navegación */
+.MuiButton-root {
+  color: #000000 !important;
+  font-weight: 400;
+  text-transform: none !important; /* Evita que los textos estén en mayúsculas */
+  position: relative;
+  margin: 0px 15px;
+  padding: 4px 20px;
+}
+
+/* Efecto de subrayado en hover para los enlaces */
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: 0;
+  left: 50%;
+  background-color: #000000;
+  transition: all 0.3s ease-in-out;
+  transform: translateX(-50%);
+}
+
+.nav-link:hover::after {
+  width: 70%;
+}
+
+/* Efecto de subrayado en hover para los enlaces */
+.nav-link:hover {
+  background-color: transparent !important;
+}
+
+/* Estilos para los iconos */
+.nav-icon {
+  color: #000000;
+  transition: transform 0.3s ease;
+  margin: 0px 15px;
+}
+
+/* Efecto de escala en hover para los iconos */
+.nav-icon:hover {
+  background-color: transparent !important;
+  transform: scale(1.2);
+}
+
+/* Contenedor de elementos a la derecha */
+.right-elements {
+  display: flex;
+  align-items: center;
+}
+
+/* Estilos para el menú desplegable */
+.MuiMenu-paper {
+  margin-top: 8px;
 }
