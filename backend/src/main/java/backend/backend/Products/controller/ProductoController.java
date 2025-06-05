@@ -1,53 +1,101 @@
 package backend.backend.Products.controller;
-import backend.backend.Products.model.Producto; // Importa la clase Producto
-import java.util.List; // Importa la clase List para manejar listas
 
+import backend.backend.Products.model.Producto;
+import backend.backend.Products.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*; // Importa todas las anotaciones de Spring para crear un controlador REST
-import backend.backend.Products.service.ProductoService; // Importa el servicio de productos
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
-@RestController // Indica que esta clase es un controlador REST
-@RequestMapping("/api/productos") // Define la ruta base para las peticiones a este controlador
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/products")
 public class ProductoController {
 
-    @Autowired // Inyecta el servicio de productos para que se pueda usar en el controlador
-    private ProductoService productoService; // Inyección de dependencias del servicio de productos
+    @Autowired
+    private ProductoService productoService;
 
-    //localhost:8080/api/productos
-    @GetMapping // Define un endpoint para obtener todos los productos
+    // GET ALL: http://localhost:8081/api/products
+    @GetMapping
     public List<Producto> getAllProductos() {
-        return productoService.getAllProductos(); // Devuelve la lista de todos los productos
-    }
-
-    //localhost:8080/api/productos/1
-    @GetMapping("/{id}") // Define un endpoint para obtener un producto por su ID
-    public Producto getProductoById(@PathVariable Long id) { 
-        return productoService.getProductoById(id); // Devuelve el producto con el ID especificado
-    }
-
-    //localhost:8080/api/productos
-    @PostMapping // Define un endpoint para crear un nuevo producto
-    public Producto createProducto(@RequestBody Producto producto) { // Recibe el producto en el cuerpo de la petición
         try {
-            if (producto.getName() == null || producto.getPrice() <= 0) { // Verifica si el producto tiene un nombre y un precio válido
-                return null; // Devuelve null si el producto no tiene un nombre o un precio válido
-            }
-
-             return productoService.createProducto(producto); // Crea un nuevo producto y lo devuelve
-
+            return productoService.getAllProductos();
         } catch (Exception e) {
-            return null; // Devuelve null si ocurre una excepción
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener los productos", e);
         }
     }
 
-    @PutMapping("/{id}") // Define un endpoint para actualizar un producto por su ID
-    public Producto updateProducto(@PathVariable Long id, @RequestBody Producto producto) { // Recibe el producto en el cuerpo de la petición
-        return productoService.updateProducto(id, producto); // Actualiza el producto y lo devuelve
+    // GET BY ID: http://localhost:8081/api/products/1
+    @GetMapping("/{id}")
+    public Producto getProductoById(@PathVariable Long id) {
+        try {
+            if (id == null || id <= 0) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID inválido");
+            }
+
+            Producto producto = productoService.getProductoById(id);
+            if (producto == null) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado");
+            }
+
+            return producto;
+
+        } catch (ResponseStatusException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al buscar el producto", e);
+        }
     }
 
-    @DeleteMapping("/{id}") // Define un endpoint para eliminar un producto por su ID
-    public void deleteProducto(@PathVariable Long id) { // Recibe el ID del producto a eliminar
-        productoService.deleteProducto(id); // Elimina el producto con el ID especificado
+    // POST: http://localhost:8081/api/products
+    @PostMapping
+    public Producto createProducto(@RequestBody Producto producto) {
+        try {
+            if (producto.getName() == null || producto.getPrice() <= 0) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nombre o precio inválido");
+            }
+
+            return productoService.createProducto(producto);
+
+        } catch (ResponseStatusException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al crear el producto", e);
+        }
     }
 
+    // PUT: http://localhost:8081/api/products/{id}
+    @PutMapping("/{id}")
+    public Producto updateProducto(@PathVariable Long id, @RequestBody Producto producto) {
+        try {
+            if (id == null || id <= 0) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID inválido");
+            }
+
+            return productoService.updateProducto(id, producto);
+
+        } catch (ResponseStatusException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al actualizar el producto", e);
+        }
+    }
+
+    // DELETE: http://localhost:8081/api/products/{id}
+    @DeleteMapping("/{id}")
+    public void deleteProducto(@PathVariable Long id) {
+        try {
+            if (id == null || id <= 0) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID inválido");
+            }
+
+            productoService.deleteProducto(id);
+
+        } catch (ResponseStatusException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al eliminar el producto", e);
+        }
+    }
 }

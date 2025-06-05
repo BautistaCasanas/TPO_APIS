@@ -4,7 +4,7 @@ import { useFetch } from "../../../hooks/UseFetch.js";
 import { Grid, Container, Box, CircularProgress, Alert } from "@mui/material";
 
 const ProductsList = ({ busqueda, filtro }) => {
-  const { data: products, error, loading } = useFetch("http://localhost:3000/products");
+  const { data: products, error, loading } = useFetch("http://localhost:3000/api/products");
 
   if (error) return <Alert severity="error">Error al cargar los productos</Alert>;
   if (loading) return (

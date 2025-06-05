@@ -1,9 +1,6 @@
 package backend.backend.Products.model;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import backend.backend.Categories.model.Categoria;
+// import java.util.ArrayList;
+// import java.util.List;
 import jakarta.persistence.*;
 import lombok.Data;
 //Esto simboliza una tabla en la base de datos
@@ -30,11 +27,11 @@ public class Producto {
     @Column(length = 50) // Longitud máxima de la categoría
     private String category;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "productos_categorias",
-        joinColumns = @JoinColumn(name = "producto_id"),
-        inverseJoinColumns = @JoinColumn(name = "categoria_id")
-    )
-    private List<Categoria> categorias = new ArrayList<>();
+//     @ManyToMany(fetch = FetchType.LAZY)
+//     @JoinTable(
+//         name = "productos_categorias",
+//         joinColumns = @JoinColumn(name = "producto_id"),
+//         inverseJoinColumns = @JoinColumn(name = "categoria_id")
+//     )
+//     private List<Categoria> categorias = new ArrayList<>();
 }

@@ -1,8 +1,11 @@
 package backend.backend.Products.service;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
 import jakarta.transaction.Transactional;
 import backend.backend.Products.repository.ProductoRepository; // Importa el repositorio de productos
 import org.springframework.beans.factory.annotation.Autowired; // Importa la anotación para inyección de dependencias
+import org.springframework.http.HttpStatus;
 
 import backend.backend.Products.model.Producto; // Importa la clase Producto
 import java.util.*; // Importa la clase List para manejar listas
@@ -29,7 +32,21 @@ public class ProductoService {
     }
 
     public Producto getProductoById(Long id) {
-        return this.productoRepository.findById(id).orElse(null); // Devuelve el producto con el ID especificado
+        try {
+            if (id == null || id <= 0) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID inválido");
+            }
+    
+            return productoRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado"));
+    
+        } catch (ResponseStatusException e) {
+            // Re-lanza errores controlados con su estado original
+            throw e;
+        } catch (Exception e) {
+            // Otros errores no esperados: log y respuesta 500
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error interno del servidor", e);
+        }
     }
 
     public Producto createProducto(Producto producto) {
