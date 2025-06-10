@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import java.util.Map;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/products")
 public class ProductoController {
@@ -81,6 +83,24 @@ public class ProductoController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al actualizar el producto", e);
         }
     }
+
+    @PatchMapping("/{id}/stock")
+    public Producto updateStock(@PathVariable Long id, @RequestBody Map<String, Integer> body) {
+        try {
+            Integer newStock = body.get("stock");
+
+            if (newStock == null || newStock < 0) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Stock inválido");
+            }
+
+            return productoService.updateStock(id, newStock);
+        } catch (ResponseStatusException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al actualizar el stock", e);
+        }
+    }
+
 
     // DELETE: http://localhost:8081/api/products/{id}
     @DeleteMapping("/{id}")

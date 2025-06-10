@@ -7,7 +7,7 @@ import Comentarios from "./Comentarios.jsx";
 
 const ProductDetail = () => {
     const { id } = useParams();
-    const { data: product, loading, error } = useFetch(`http://localhost:3000/products/${id}`);
+    const { data: product, loading, error } = useFetch(`http://localhost:8081/api/products/${id}`);
     const { addToCart } = useContext(CartContext);
     const [currentStock, setCurrentStock] = useState(0);
 
@@ -19,7 +19,7 @@ const ProductDetail = () => {
 
     const fetchCurrentStock = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/products/${id}`);
+            const response = await fetch(`http://localhost:8081/api/products/${id}`);
             const data = await response.json();
             setCurrentStock(data.stock);
         } catch (error) {

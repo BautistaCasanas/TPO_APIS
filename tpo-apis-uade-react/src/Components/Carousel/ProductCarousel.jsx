@@ -1,12 +1,12 @@
 import React from 'react';
 import { Carousel } from 'react-bootstrap';
-import { Box, Grid, Card, CardMedia, CardContent, Typography, CircularProgress } from '@mui/material';
+import { Box, Grid, Card, CardMedia, CardContent, Typography, CircularProgress,Alert } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useFetch } from '../../hooks/UseFetch';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const ProductCarousel = () => {
-  const { data: products, error, loading } = useFetch("http://localhost:3000/products");
+  const { data: products, error, loading } = useFetch("http://localhost:8081/api/products");
 
   if (error) return <Alert severity="error">Error al cargar los productos</Alert>;
   if (loading) return (

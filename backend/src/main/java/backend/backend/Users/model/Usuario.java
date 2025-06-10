@@ -1,14 +1,8 @@
 package backend.backend.Users.model;
-import backend.backend.Orders.model.Pedido;
-
-import java.util.List;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import lombok.Data;
 
 @Data
@@ -26,7 +20,4 @@ public class Usuario {
     private String address;
     private String phone;
     private String image;
-    
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    List<Pedido> pedidos;
 }
