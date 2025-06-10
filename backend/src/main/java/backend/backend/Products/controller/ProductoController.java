@@ -118,4 +118,26 @@ public class ProductoController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al eliminar el producto", e);
         }
     }
+
+    // GET por id de usuario: http://localhost:8081/api/products/user/{userId}
+    @GetMapping("/api/products/user/{userId}")
+    public List<Producto> getProductosByUserId(@PathVariable int userId) {
+        try {
+            if (userId <= 0) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID de usuario inválido");
+            }
+
+            List<Producto> productos = productoService.getProductosByUserId(userId);
+            if (productos.isEmpty()) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No se encontraron productos para el usuario");
+            }
+
+            return productos;
+
+        } catch (ResponseStatusException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al buscar los productos del usuario", e);
+        }
+    }
 }

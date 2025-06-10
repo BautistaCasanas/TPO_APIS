@@ -115,5 +115,19 @@ public class ProductoService {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al actualizar el stock", e);
         }
     }
+
+    
+    public List<Producto> getProductosByUserId(int userId) {
+        try {
+
+            if (userId <= 0) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID de usuario inválido");
+            }
+
+            return productoRepository.findByUserId(userId);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener productos por usuario", e);
+        }
+    }
     
 }
