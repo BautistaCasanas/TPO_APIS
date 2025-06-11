@@ -22,9 +22,9 @@ public class Comentarios {
     @Column(length = 500)
     private String text;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name = "usuario_id")
+    // private Usuario usuario;
 
 
 }
