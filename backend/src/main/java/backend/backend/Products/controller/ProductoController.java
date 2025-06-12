@@ -120,7 +120,7 @@ public class ProductoController {
     }
 
     // GET por id de usuario: http://localhost:8081/api/products/user/{userId}
-    @GetMapping("/api/products/user/{userId}")
+    @GetMapping("/user/{userId}")
     public List<Producto> getProductosByUserId(@PathVariable int userId) {
         try {
             if (userId <= 0) {

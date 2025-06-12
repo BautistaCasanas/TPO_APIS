@@ -7,8 +7,6 @@ import backend.backend.Users.repository.UsuarioRepository;
 import backend.backend.dto.LoginRequest;
 import backend.backend.dto.RegisterRequest;
 
-import java.util.Set;
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;

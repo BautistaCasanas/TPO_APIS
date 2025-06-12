@@ -1,10 +1,13 @@
 package backend.backend.Products.model;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import backend.backend.Users.model.Usuario;
 // import java.util.ArrayList;
 // import java.util.List;
 import jakarta.persistence.*;
 import lombok.Data;
 //Esto simboliza una tabla en la base de datos
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Data
 @Entity(name = "productos") // Nombre de la tabla en la base de datos
 public class Producto {
