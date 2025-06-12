@@ -1,13 +1,11 @@
 package backend.backend.Users.model;
 
-import backend.backend.Orders.model.Pedido;
 import backend.backend.Users.Role.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -42,9 +40,7 @@ public class Usuario implements UserDetails {
     private String address;
     private String phone;
     private String image;
-    
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    List<Pedido> pedidos;
+
 
    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -18,7 +18,7 @@ const Card = ({ id, title, description, price, image }) => {
     useEffect(() => {
         const fetchStock = async () => {
             try {
-                const res = await fetch(`http://localhost:3000/products/${id}`);
+                const res = await fetch(`http://localhost:8081/api/products/${id}`);
                 const data = await res.json();
                 setStock(data.stock);
             } catch (error) {

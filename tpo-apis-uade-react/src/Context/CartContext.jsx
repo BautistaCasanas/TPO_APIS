@@ -8,7 +8,7 @@ export const CartProvider = ({ children }) => {
     
     // Función para agregar un item al carrito
     const addToCart = async (item) => {
-        const res = await fetch(`http://localhost:3000/products/${item.id}`);
+        const res = await fetch(`http://localhost:8081/api/products/${item.id}`);
         const product = await res.json();
     
         if (product.stock <= 0) {
@@ -37,7 +37,7 @@ export const CartProvider = ({ children }) => {
         });
     };
     const updateProductStock = async (productId, newStock) => {
-        await fetch(`http://localhost:3000/products/${productId}`, {
+        await fetch(`http://localhost:8081/api/products/${productId}/stock`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
@@ -50,7 +50,7 @@ export const CartProvider = ({ children }) => {
     const removeFromCart = async (id) => {
         const removedItem = cart.find((item) => item.id === id);
         if (removedItem) {
-            const res = await fetch(`http://localhost:3000/products/${id}`);
+            const res = await fetch(`http://localhost:8081/api/products/${id}`);
             const product = await res.json();
     
             const newStock = product.stock + removedItem.quantity;
@@ -68,7 +68,7 @@ export const CartProvider = ({ children }) => {
         if (!existingItem) return;
     
         const difference = newQuantity - existingItem.quantity;
-        const res = await fetch(`http://localhost:3000/products/${id}`);
+        const res = await fetch(`http://localhost:8081/api/products/${id}`);
         const product = await res.json();
     
         if (difference > 0 && product.stock < difference) {
