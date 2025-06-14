@@ -1,9 +1,13 @@
 package backend.backend.Products.model;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import backend.backend.Users.model.Usuario;
 // import java.util.ArrayList;
 // import java.util.List;
 import jakarta.persistence.*;
 import lombok.Data;
 //Esto simboliza una tabla en la base de datos
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Data
 @Entity(name = "productos") // Nombre de la tabla en la base de datos
 public class Producto {
@@ -22,16 +26,12 @@ public class Producto {
     private double price;
     @Column(length = 255) // Longitud máxima de la imagen
     private String image;
-    @Column(nullable = false) // Indica que este campo no puede ser nulo
-    private int userId;
+    @Column(nullable = false)
+    private Long userId;
     @Column(length = 50) // Longitud máxima de la categoría
     private String category;
 
-//     @ManyToMany(fetch = FetchType.LAZY)
-//     @JoinTable(
-//         name = "productos_categorias",
-//         joinColumns = @JoinColumn(name = "producto_id"),
-//         inverseJoinColumns = @JoinColumn(name = "categoria_id")
-//     )
-//     private List<Categoria> categorias = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId", nullable = false, insertable = false, updatable = false)
+    private Usuario usuario;
 }
