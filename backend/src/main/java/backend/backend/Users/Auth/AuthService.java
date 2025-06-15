@@ -47,7 +47,7 @@ public class AuthService {
         return jwtToken;
     }
 
-    public String authenticate(LoginRequest request) {
+    public AuthResponse authenticate(LoginRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -59,7 +59,10 @@ public class AuthService {
                 user.getEmail(),
                 user.getRoles()
         );
-        return jwtToken;
+
+        
+
+        return new AuthResponse(jwtToken, user);
     }
 
 

@@ -18,9 +18,9 @@ function ProductManagement() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!auth?.token || !auth?.id) return;
+    if (!auth?.token || !auth?.usuario.id) return;
 
-    fetch(`http://localhost:3000/products?userId=${auth.id}`)
+    fetch(`http://localhost:8081/api/products/user/${auth?.usuario.id}`)
       .then(res => {
         if (!res.ok) throw new Error("Error al cargar los productos");
         return res.json();
@@ -30,8 +30,12 @@ function ProductManagement() {
   }, [refresh, auth]);
 
   const handleDelete = async (id) => {
-    await fetch(`http://localhost:3000/products/${id}`, {
-      method: "DELETE"
+    await fetch(`http://localhost:8081/api/products/${id}`, {
+      method: "DELETE",
+      headers:{
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${auth.token}`
+      },
     });
     setRefresh(!refresh);
   };
@@ -46,7 +50,7 @@ function ProductManagement() {
     <Box p={3}>
       <Box display="flex" justifyContent="space-between" mb={3}>
         <TextField
-          variant="outlined"
+          variant="outlined"  
           placeholder="Buscar productos..."
           size="small"
           value={searchTerm}
@@ -77,33 +81,43 @@ function ProductManagement() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredProducts.map((product) => (
-              <TableRow key={product.id}>
-                <TableCell>{product.id}</TableCell>
-                <TableCell>{product.name}</TableCell>
-                <TableCell>{product.category}</TableCell>
-                <TableCell>{product.stock}</TableCell>
-                <TableCell>{product.price}</TableCell>
-                <TableCell>
-                  <IconButton
-                    color="primary"
-                    size="small"
-                    onClick={() => {
-                      navigate('/publicar', { state: { initialData: product } });
-                    }}
-                  >
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton
-                    color="error"
-                    size="small"
-                    onClick={() => handleDelete(product.id)}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
+            {filteredProducts.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={6} align="center">
+                  <Typography variant="subtitle1" color="textSecondary">
+                    No tenés productos publicados.
+                  </Typography>
                 </TableCell>
               </TableRow>
-            ))}
+            ) : (
+              filteredProducts.map((product) => (
+                <TableRow key={product.id}>
+                  <TableCell>{product.id}</TableCell>
+                  <TableCell>{product.name}</TableCell>
+                  <TableCell>{product.category}</TableCell>
+                  <TableCell>{product.stock}</TableCell>
+                  <TableCell>{product.price}</TableCell>
+                  <TableCell>
+                    <IconButton
+                      color="primary"
+                      size="small"
+                      onClick={() => {
+                        navigate('/publicar', { state: { initialData: product } });
+                      }}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton
+                      color="error"
+                      size="small"
+                      onClick={() => handleDelete(product.id)}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
           </TableBody>
         </Table>
       </TableContainer>

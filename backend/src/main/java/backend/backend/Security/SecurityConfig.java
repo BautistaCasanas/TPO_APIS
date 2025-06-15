@@ -17,6 +17,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import backend.backend.Users.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -59,8 +61,24 @@ public class SecurityConfig {
     }
 
     @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                    .allowedOrigins("http://localhost:5173") // o el puerto que uses para tu React
+                    .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH")
+                    .allowedHeaders("*")
+                    .allowCredentials(true);
+            }
+        };
+    }
+
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationProvider authProvider) throws Exception {
         http
+            .cors()
+            .and()
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
@@ -68,12 +86,14 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/products", "/api/products/{id}", "/api/products/user/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/products").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/products/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PATCH, "/api/products/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authenticationProvider(authProvider)
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-        return http.build();
+        return http.build();    
     }
+
 }

@@ -10,7 +10,6 @@ import java.util.Map;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/products")
 public class ProductoController {
@@ -128,9 +127,6 @@ public class ProductoController {
             }
 
             List<Producto> productos = productoService.getProductosByUserId(userId);
-            if (productos.isEmpty()) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No se encontraron productos para el usuario");
-            }
 
             return productos;
 

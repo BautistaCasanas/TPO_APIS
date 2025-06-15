@@ -59,7 +59,7 @@ const Navbar = () => {
                             Productos
                         </Button>
 
-                        {auth?.token && auth?.role === 'admin' && (
+                        {auth?.token && auth?.usuario.role === 'ADMIN' && (
                             <Button 
                                 color="inherit"
                                 onClick={() => navigate('/publicar')}
@@ -107,9 +107,9 @@ const Navbar = () => {
                             {auth?.token ? (
                                 <Box>
                                     <MenuItem sx={{ flexDirection: 'column', alignItems: 'flex-start' }}>
-                                        <Typography variant="subtitle1">{auth.name}</Typography>
+                                        <Typography variant="subtitle1">{auth?.usuario.name}</Typography>
                                         <Typography variant="caption" color="text.secondary">
-                                            Rol: {auth.role}
+                                            Rol: {auth?.usuario.role}
                                         </Typography>
                                     </MenuItem>
                                     <Divider />
@@ -117,7 +117,7 @@ const Navbar = () => {
                                         Mi perfil
                                     </MenuItem>
 
-                                    {auth?.token && auth?.role === 'admin' && (
+                                    {auth?.token && auth?.usuario.role === 'ADMIN' && (
                                     <MenuItem component={Link} to="/dashboard" onClick={handleClose}>
                                         Gestión de Productos
                                     </MenuItem>

@@ -1,10 +1,14 @@
 import { createContext, useState } from 'react';
 import { getLocalStorage, saveLocalStorage } from '../Hooks/LocalStorage';
+// Importar el contexto de usuario
+import { UserContext } from './UserContext';
+import { useContext } from 'react';
 
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
     const [cart, setCart] = useState([]);
+    const { auth } = useContext(UserContext);
     
     // Función para agregar un item al carrito
     const addToCart = async (item) => {
@@ -40,7 +44,9 @@ export const CartProvider = ({ children }) => {
         await fetch(`http://localhost:8081/api/products/${productId}/stock`, {
             method: 'PATCH',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${auth?.token}`
+                
             },
             body: JSON.stringify({ stock: newStock })
         });

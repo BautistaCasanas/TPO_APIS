@@ -1,8 +1,11 @@
 package backend.backend.Comments.model;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import backend.backend.Users.model.Usuario;
 import jakarta.persistence.*;
 import lombok.Data;
 
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Data
 @Entity(name = "comments")
 public class Comentarios {
@@ -22,9 +25,9 @@ public class Comentarios {
     @Column(length = 500)
     private String text;
 
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "usuario_id")
-    // private Usuario usuario;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId", nullable = false, insertable = false, updatable = false)
+    private Usuario usuario;
 
 
 }

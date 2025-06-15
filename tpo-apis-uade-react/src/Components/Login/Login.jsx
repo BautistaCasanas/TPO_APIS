@@ -66,18 +66,38 @@ const Login = () => {
         }
     
         try {
-            // Consultar usuarios en db.json
-            const response = await fetch(`http://localhost:3000/users`);
-            const users = await response.json();
+            // // Consultar usuarios en db.json
+            // const response = await fetch(`http://localhost:3000/users`);
+            // const users = await response.json();
             
-            const found = users.find(user => user.email === formData.email && user.password === formData.password);
-            let tokenHardcoded = { token: 'tokenHardcoded', role: found.role, id: found.id, name: found.name }; // Token simulado
-            if (found) {
-                login(tokenHardcoded);
-                navigate('/'); // Redirigir a la página principal
-            } else {
-                setShowError(true);
+            // const found = users.find(user => user.email === formData.email && user.password === formData.password);
+            // let tokenHardcoded = { token: 'tokenHardcoded', role: found.role, id: found.id, name: found.name }; // Token simulado
+            // if (found) {
+            //     login(tokenHardcoded);
+            //     navigate('/'); // Redirigir a la página principal
+            // } else {
+            //     setShowError(true);
+            // }
+
+            const response = await fetch('http://localhost:8081/api/auth/login',{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+
+            // console.log('Response:', response);
+
+            if (!response.ok) {
+                throw new Error('Credenciales inválidas');
             }
+
+            const token = await response.json();
+            // console.log('Token:', token);
+            login(token);
+            navigate('/');
+
         } catch (error) {
             console.error('Error during login:', error);
             setShowError(true);

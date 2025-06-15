@@ -26,21 +26,40 @@ function Perfil() {
 
     useEffect(() => {
         const fetchUserData = async () => {
-            if (!auth?.id) return;
-            try {
-                const response = await fetch(`http://localhost:3000/users/${auth.id}`);
-                if (!response.ok) throw new Error('Error al cargar los datos del usuario');
-                const data = await response.json();
+            if (!auth?.usuario.id) return;
+
+            try{
+                const data = {
+                    id: auth.usuario.id,
+                    name: auth.usuario.name || '',
+                    email: auth.usuario.email || '',
+                    phone: auth.usuario.phone || '',
+                    image: auth.usuario.image || 'https://via.placeholder.com/150'
+                };
                 setUserData(data);
-                setEditData({ name: data.name || '', email: data.email || '', phone: data.phone || '' });
-            } catch (err) {
-                setError(err.message);
-            } finally {
+                setEditData({ name: data.name, email: data.email, phone: data.phone });
+            }catch(err) {
+                setError('Error al cargar los datos del usuario');
+            }finally {
                 setLoading(false);
             }
+
+
+
+            // try {
+            //     const response = await fetch(`http://localhost:3000/users/${auth.id}`);
+            //     if (!response.ok) throw new Error('Error al cargar los datos del usuario');
+            //     const data = await response.json();
+            //     setUserData(data);
+            //     setEditData({ name: data.name || '', email: data.email || '', phone: data.phone || '' });
+            // } catch (err) {
+            //     setError(err.message);
+            // } finally {
+            //     setLoading(false);
+            // }
         };
         fetchUserData();
-    }, [auth?.id]);
+    }, [auth?.usuario.id]);
 
     const handleEditChange = (e) => {
         const { name, value } = e.target;

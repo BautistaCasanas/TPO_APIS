@@ -96,21 +96,21 @@ const Register = () => {
                 name: formData.nombre,
                 email: formData.email,
                 password: formData.password,
-                role: 'user',
+                role: 'USER',
                 image: `https://i.pravatar.cc/150?u=${formData.email}`,
                 phone: '',
                 address: ''
             };
-            const response = await fetch('http://localhost:3000/users', {
+            const response = await fetch('http://localhost:8081/api/auth/register', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(userToRegister)
             });
             if (!response.ok) throw new Error('Error al registrar usuario');
-            const savedUser = await response.json();
+            const token = await response.text();
             // Guardar en contexto y localStorage (login automático)
             login({
-                token: 'tokenHardcoded',
+                token: token,
                 role: savedUser.role,
                 id: savedUser.id,
                 name: savedUser.name

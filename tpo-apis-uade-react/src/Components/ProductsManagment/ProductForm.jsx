@@ -85,29 +85,30 @@ const ProductForm = () => {
     };
 
     const handleSaveProduct = async (productData) => {
-        const url = initialData
-        ? `http://localhost:3000/products/${initialData.id}`
-        : "http://localhost:3000/products";
+            const url = initialData
+            ? `http://localhost:8081/api/products/${initialData.id}`
+            : "http://localhost:8081/api/products";
 
-    const method = initialData ? "PUT" : "POST";
+        const method = initialData ? "PUT" : "POST";
 
-    try {
-        await fetch(url, {
-            method,
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                ...productData,
-                userId: auth.id,
-                id: initialData?.id 
-            })
-        });
-        navigate(-1);
-    } catch (error) {
-        console.error('Error al guardar el producto:', error);
-    }
-};
+        try {
+            await fetch(url, {
+                method,
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${auth?.token}`
+                },
+                body: JSON.stringify({
+                    ...productData,
+                    userId: auth?.usuario.id,
+                    id: initialData?.id
+                })
+            });
+            navigate(-1);
+        } catch (error) {
+            console.error('Error al guardar el producto:', error);
+        }
+    };
 
     const handleSubmit = () => {
         const newErrors = {};
