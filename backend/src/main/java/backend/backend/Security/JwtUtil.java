@@ -5,8 +5,6 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import backend.backend.Users.model.Usuario;
-
 import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.Set;

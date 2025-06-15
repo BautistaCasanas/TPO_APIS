@@ -1,5 +1,5 @@
 package backend.backend.Products.controller;
-
+import backend.backend.dto.ProductoDTO;
 import backend.backend.Products.model.Producto;
 import backend.backend.Products.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +68,7 @@ public class ProductoController {
 
     // PUT: http://localhost:8081/api/products/{id}
     @PutMapping("/{id}")
-    public Producto updateProducto(@PathVariable Long id, @RequestBody Producto producto) {
+    public Producto updateProducto(@PathVariable Long id, @RequestBody ProductoDTO producto) {
         try {
             if (id == null || id <= 0) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID inválido");

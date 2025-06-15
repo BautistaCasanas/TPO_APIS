@@ -19,7 +19,8 @@ const Comentarios = ({ productId }) => {
 
 
   const fetchComments = async () => {
-      const res = await fetch(`http://localhost:3000/comments?productId=${(productId)}`);
+    
+      const res = await fetch(`http://localhost:8081/api/comments/product/${productId}`);
       if (!res.ok) throw new Error("Error al obtener comentarios");
       const data = await res.json();
       setComments(data);
@@ -34,17 +35,20 @@ const Comentarios = ({ productId }) => {
 
     const newComment = {
       productId: (productId),
-      user: auth.name,
-      userId: auth.id,
+      user: auth.usuario.name,
+      userId: auth.usuario.id,
       rating,
       text: comment,
       date: new Date().toISOString().split('T')[0]
     };
 
     try {
-      const response = await fetch('http://localhost:3000/comments', {
+      const response = await fetch('http://localhost:8081/api/comments', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${auth.token}`
+         },
         body: JSON.stringify(newComment)
       });
 

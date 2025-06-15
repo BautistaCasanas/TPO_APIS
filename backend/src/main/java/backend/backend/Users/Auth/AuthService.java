@@ -26,13 +26,13 @@ public class AuthService {
     private final JwtUtil jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public String register(RegisterRequest request) {
+    public AuthResponse register(RegisterRequest request) {
         if (usuarioRepository.existsByEmail(request.getEmail())) {
             throw new IllegalStateException("Ya existe un usuario con ese email");
         }
 
         Usuario usuario = Usuario.builder()
-                .name(request.getNombre())
+                .name(request.getName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
@@ -44,7 +44,8 @@ public class AuthService {
                 usuario.getRoles()
         );
 
-        return jwtToken;
+        return new AuthResponse(jwtToken, usuario);
+        
     }
 
     public AuthResponse authenticate(LoginRequest request) {

@@ -103,18 +103,17 @@ const Register = () => {
             };
             const response = await fetch('http://localhost:8081/api/auth/register', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json'
+                 },
                 body: JSON.stringify(userToRegister)
             });
             if (!response.ok) throw new Error('Error al registrar usuario');
-            const token = await response.text();
+            console.log('Usuario registrado exitosamente');
+            const userInfo = await response.json();
+            console.log('Información del usuario:', userInfo);
             // Guardar en contexto y localStorage (login automático)
-            login({
-                token: token,
-                role: savedUser.role,
-                id: savedUser.id,
-                name: savedUser.name
-            });
+            login(userInfo);
             navigate('/');
         } catch {
             setErrors(prev => ({ ...prev, email: 'Error al registrar usuario' }));

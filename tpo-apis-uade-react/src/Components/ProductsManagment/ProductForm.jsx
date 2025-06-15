@@ -101,7 +101,7 @@ const ProductForm = () => {
                 body: JSON.stringify({
                     ...productData,
                     userId: auth?.usuario.id,
-                    id: initialData?.id
+                    // id: initialData?.id
                 })
             });
             navigate(-1);

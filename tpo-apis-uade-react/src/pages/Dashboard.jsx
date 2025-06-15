@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Sidebar from "../Components/Sidebar/Sidebar";
 import ProductManagement from "../Components/ProductsManagment/ProductsManagment";
-import UserManagement from "../Components/UsersManagment/UsersManagment";
 import Navbar from "../Components/Navbar/Navbar";
 import Footer from "../Components/Footer/Footer";
 

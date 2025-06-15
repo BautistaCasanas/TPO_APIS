@@ -29,13 +29,15 @@ function Perfil() {
             if (!auth?.usuario.id) return;
 
             try{
-                const data = {
-                    id: auth.usuario.id,
-                    name: auth.usuario.name || '',
-                    email: auth.usuario.email || '',
-                    phone: auth.usuario.phone || '',
-                    image: auth.usuario.image || 'https://via.placeholder.com/150'
-                };
+
+                const response = await fetch(`http://localhost:8081/api/users/${auth.usuario.id}`,{
+                    method: 'GET',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${auth.token}`
+                       },
+                });
+                const data = await response.json();
                 setUserData(data);
                 setEditData({ name: data.name, email: data.email, phone: data.phone });
             }catch(err) {
@@ -44,19 +46,6 @@ function Perfil() {
                 setLoading(false);
             }
 
-
-
-            // try {
-            //     const response = await fetch(`http://localhost:3000/users/${auth.id}`);
-            //     if (!response.ok) throw new Error('Error al cargar los datos del usuario');
-            //     const data = await response.json();
-            //     setUserData(data);
-            //     setEditData({ name: data.name || '', email: data.email || '', phone: data.phone || '' });
-            // } catch (err) {
-            //     setError(err.message);
-            // } finally {
-            //     setLoading(false);
-            // }
         };
         fetchUserData();
     }, [auth?.usuario.id]);
@@ -72,10 +61,13 @@ function Perfil() {
         setEditSuccess(false);
         setError(null);
         try {
-            const response = await fetch(`http://localhost:3000/users/${auth.id}` , {
+            const response = await fetch(`http://localhost:8081/api/users/${auth?.usuario.id}` , {
                 method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ ...userData, ...editData })
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${auth.token}`
+                 },
+                body: JSON.stringify({...editData })
             });
             if (!response.ok) throw new Error('Error al actualizar el perfil');
             const updated = await response.json();

@@ -1,5 +1,5 @@
 package backend.backend.Products.service;
-
+import backend.backend.dto.ProductoDTO;
 import backend.backend.Products.model.Producto;
 import backend.backend.Products.repository.ProductoRepository;
 import jakarta.transaction.Transactional;
@@ -77,7 +77,7 @@ public class ProductoService {
         }
     }
 
-    public Producto updateProducto(Long id, Producto producto) {
+    public Producto updateProducto(Long id, ProductoDTO producto) {
         try {
             if (id == null || id <= 0) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID inválido");
@@ -86,8 +86,19 @@ public class ProductoService {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado");
             }
 
-            producto.setId(id);
-            return productoRepository.save(producto);
+            Producto existingProducto = productoRepository.findById(id)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado"));
+
+            existingProducto.setName(producto.getName());
+            existingProducto.setDescription(producto.getDescription());
+            existingProducto.setPrice(producto.getPrice());
+            existingProducto.setImage(producto.getImageUrl());
+            existingProducto.setCategory(producto.getCategory());
+            existingProducto.setStock(producto.getStock());
+
+
+
+            return productoRepository.save(existingProducto);
 
         } catch (ResponseStatusException e) {
             throw e;

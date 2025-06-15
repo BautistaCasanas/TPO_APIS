@@ -10,24 +10,15 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/comentarios")
+@RequestMapping("/api/comments")
 public class ComentariosController {
 
     @Autowired
     private ComentariosService comentariosService;
 
-    // GET ALL: http://localhost:8081/api/comentarios
-    // @GetMapping
-    // public List<Comentarios> listarComentarios() {
-    //     try {
-    //         return comentariosService.obtenerTodos();
-    //     } catch (Exception e) {
-    //         throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener los comentarios", e);
-    //     }
-    // }
 
     // GET BY PRODUCT ID: http://localhost:8081/api/comentarios/producto/{productId}
-    @GetMapping("/producto/{productId}")
+    @GetMapping("/product/{productId}")
     public List<Comentarios> comentariosPorProducto(@PathVariable Long productId) {
         try {
             if (productId == null || productId <= 0) {
@@ -58,19 +49,4 @@ public class ComentariosController {
         }
     }
 
-    // DELETE: http://localhost:8081/api/comentarios/{id}
-    // @DeleteMapping("/{id}")
-    // public void eliminarComentario(@PathVariable Long id) {
-    //     try {
-    //         if (id == null || id <= 0) {
-    //             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID inválido");
-    //         }
-
-    //         comentariosService.eliminarComentario(id);
-    //     } catch (ResponseStatusException e) {
-    //         throw e;
-    //     } catch (Exception e) {
-    //         throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al eliminar el comentario", e);
-    //     }
-    // }
 }
