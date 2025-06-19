@@ -2,10 +2,11 @@ package backend.backend.Comments.controller;
 
 import backend.backend.Comments.model.Comentarios;
 import backend.backend.Comments.service.ComentariosService;
+import backend.backend.exceptions.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -15,38 +16,41 @@ public class ComentariosController {
 
     @Autowired
     private ComentariosService comentariosService;
-
-
-    // GET BY PRODUCT ID: http://localhost:8081/api/comentarios/producto/{productId}
+    // GET BY PRODUCT ID: http://localhost:8081/api/comments/product/{productId}
     @GetMapping("/product/{productId}")
-    public List<Comentarios> comentariosPorProducto(@PathVariable Long productId) {
-        try {
-            if (productId == null || productId <= 0) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID de producto inválido");
-            }
-            return comentariosService.obtenerPorProducto(productId);
-        } catch (ResponseStatusException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al obtener comentarios del producto", e);
+    public ResponseEntity<List<Comentarios>> comentariosPorProducto(@PathVariable Long productId) {
+        if (productId == null || productId <= 0) {
+            throw new BadRequestException("ID de producto inválido");
         }
+        
+        List<Comentarios> comentarios = comentariosService.obtenerPorProducto(productId);
+        return ResponseEntity.ok(comentarios);
+    }    
+    
+    // POST: http://localhost:8081/api/comments
+    @PostMapping
+    public ResponseEntity<Comentarios> crearComentario(@RequestBody Comentarios comentario) {
+        if (comentario.getUser() == null || comentario.getUser().isEmpty() ||
+            comentario.getProductId() == null || comentario.getUserId() == null) {
+            throw new BadRequestException("Faltan datos obligatorios del comentario");
+        }
+
+        Comentarios nuevoComentario = comentariosService.guardarComentario(comentario);
+        return ResponseEntity.status(HttpStatus.CREATED).body(nuevoComentario);
+    }    
+    
+    // GET BY ID: http://localhost:8081/api/comments/{id}
+    @GetMapping("/{id}")
+    public ResponseEntity<Comentarios> obtenerComentarioPorId(@PathVariable Long id) {
+        Comentarios comentario = comentariosService.obtenerComentarioRequerido(id);
+        return ResponseEntity.ok(comentario);
     }
 
-    // POST: http://localhost:8081/api/comentarios
-    @PostMapping
-    public Comentarios crearComentario(@RequestBody Comentarios comentario) {
-        try {
-            if (comentario.getUser() == null || comentario.getUser().isEmpty() ||
-                comentario.getProductId() == null || comentario.getUserId() == null) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Faltan datos obligatorios del comentario");
-            }
-
-            return comentariosService.guardarComentario(comentario);
-        } catch (ResponseStatusException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al crear el comentario", e);
-        }
+    // DELETE: http://localhost:8081/api/comments/{id}
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarComentario(@PathVariable Long id) {
+        comentariosService.eliminarComentario(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
