@@ -2,8 +2,9 @@ package backend.backend.Products.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import backend.backend.Users.model.Usuario;
-// import java.util.ArrayList;
-// import java.util.List;
+import backend.backend.Categories.model.Categories;
+import java.util.ArrayList;
+import java.util.List;
 import jakarta.persistence.*;
 import lombok.Data;
 //Esto simboliza una tabla en la base de datos
@@ -28,10 +29,16 @@ public class Producto {
     private String image;
     @Column(nullable = false)
     private Long userId;
-    @Column(length = 50) // Longitud máxima de la categoría
-    private String category;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", nullable = false, insertable = false, updatable = false)
     private Usuario usuario;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "productos_categorias",
+        joinColumns = @JoinColumn(name = "producto_id"),
+        inverseJoinColumns = @JoinColumn(name = "categoria_id")
+    )
+    private List<Categories> categorias = new ArrayList<>();
 }
