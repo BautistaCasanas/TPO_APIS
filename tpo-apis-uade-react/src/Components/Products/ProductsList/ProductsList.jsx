@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Card from "../../Cards/Card.jsx";
-import { useFetch } from "../../../hooks/UseFetch.js";
+import { useFetch } from "../../../Hooks/UseFetch.js";
 import { Grid, Container, Box, CircularProgress, Alert } from "@mui/material";
 
 const ProductsList = ({ busqueda, filtro }) => {
