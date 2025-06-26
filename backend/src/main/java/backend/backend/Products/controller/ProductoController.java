@@ -1,10 +1,6 @@
 package backend.backend.Products.controller;
 
 import backend.backend.dto.ProductoDTO;
-import backend.backend.exception.IdException;
-import backend.backend.exception.NombreNuloException;
-import backend.backend.exception.PrecioNegativoException;
-import backend.backend.exception.ProductoNuloException;
 import backend.backend.Products.model.Producto;
 import backend.backend.Products.service.ProductoService;
 import backend.backend.exceptions.BadRequestException;
