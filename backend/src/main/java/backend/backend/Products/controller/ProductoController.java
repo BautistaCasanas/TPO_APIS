@@ -1,5 +1,9 @@
 package backend.backend.Products.controller;
 import backend.backend.dto.ProductoDTO;
+import backend.backend.exception.IdException;
+import backend.backend.exception.NombreNuloException;
+import backend.backend.exception.PrecioNegativoException;
+import backend.backend.exception.ProductoNuloException;
 import backend.backend.Products.model.Producto;
 import backend.backend.Products.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +36,12 @@ public class ProductoController {
     public Producto getProductoById(@PathVariable Long id) {
         try {
             if (id == null || id <= 0) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID inválido");
+                throw new IdException();
             }
 
             Producto producto = productoService.getProductoById(id);
             if (producto == null) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Producto no encontrado");
+                throw new ProductoNuloException();
             }
 
             return producto;
@@ -52,18 +56,13 @@ public class ProductoController {
     // POST: http://localhost:8081/api/products
     @PostMapping
     public Producto createProducto(@RequestBody Producto producto) {
-        try {
-            if (producto.getName() == null || producto.getPrice() <= 0) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nombre o precio inválido");
+            if (producto.getPrice() <= 0) {
+                throw new PrecioNegativoException();
             }
-
+            if (producto.getName() == null) {
+                throw new NombreNuloException();
+            }
             return productoService.createProducto(producto);
-
-        } catch (ResponseStatusException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al crear el producto", e);
-        }
     }
 
     // PUT: http://localhost:8081/api/products/{id}
@@ -71,7 +70,7 @@ public class ProductoController {
     public Producto updateProducto(@PathVariable Long id, @RequestBody ProductoDTO producto) {
         try {
             if (id == null || id <= 0) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID inválido");
+                throw new IdException();
             }
 
             return productoService.updateProducto(id, producto);
@@ -104,36 +103,23 @@ public class ProductoController {
     // DELETE: http://localhost:8081/api/products/{id}
     @DeleteMapping("/{id}")
     public void deleteProducto(@PathVariable Long id) {
-        try {
-            if (id == null || id <= 0) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID inválido");
-            }
-
-            productoService.deleteProducto(id);
-
-        } catch (ResponseStatusException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al eliminar el producto", e);
+        if (id == null || id <= 0) {
+            throw new IdException();
         }
+
+        productoService.deleteProducto(id);
+
     }
 
     // GET por id de usuario: http://localhost:8081/api/products/user/{userId}
     @GetMapping("/user/{userId}")
     public List<Producto> getProductosByUserId(@PathVariable int userId) {
-        try {
-            if (userId <= 0) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID de usuario inválido");
-            }
-
-            List<Producto> productos = productoService.getProductosByUserId(userId);
-
-            return productos;
-
-        } catch (ResponseStatusException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error al buscar los productos del usuario", e);
+        if (userId <= 0) {
+            throw new IdException();
         }
+
+        List<Producto> productos = productoService.getProductosByUserId(userId);
+
+        return productos;
     }
 }
