@@ -1,5 +1,7 @@
 package backend.backend.Comments.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import backend.backend.Products.model.Producto;
 import backend.backend.Users.model.Usuario;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -12,12 +14,6 @@ public class Comentarios {
     @Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Long id;
-    @Column(nullable = false, length = 100) 
-    private String user;
-    @Column(nullable = false)
-    private Long userId;
-    @Column(nullable = false)
-    private Long productId; 
 
     @Column(length = 50)
     private String rating; 
@@ -25,9 +21,15 @@ public class Comentarios {
     @Column(length = 500)
     private String text;
 
+    // Relación con Usuario
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "user_id", nullable = false)  // FK a usuarios.id
     private Usuario usuario;
+
+    // Relación con Producto
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", nullable = false)  // FK a productos.id
+    private Producto producto;
 
 
 }
