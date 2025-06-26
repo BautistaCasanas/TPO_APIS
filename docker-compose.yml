@@ -1,5 +1,5 @@
 
-version: "3.8"
+# version: "3.8"
 
 services:
   mysql:
@@ -15,7 +15,7 @@ services:
       - mysql_data:/var/lib/mysql
     networks:
       - apis_network
-
+  
   backend:
     build:
       context: ./backend
@@ -36,7 +36,7 @@ services:
       context: ./tpo-apis-uade-react
     container_name: apis_frontend
     ports:
-      - "5173:80"
+      - "5173:5173"
     depends_on:
       - backend
     networks:
