@@ -72,7 +72,12 @@ public class ProductoController {
             if (id == null || id <= 0) {
                 throw new IdException();
             }
-
+            if (producto == null) {
+                throw new ProductoNuloException();
+            }
+            if (producto.getPrice() <= 0) {
+                throw new PrecioNegativoException();
+            }
             return productoService.updateProducto(id, producto);
 
         } catch (ResponseStatusException e) {
