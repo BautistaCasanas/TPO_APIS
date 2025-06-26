@@ -32,7 +32,7 @@ const ProductForm = () => {
         description: '',
         price: '',
         stock: '',
-        images: []
+        image: '',
     });
 
     const [errors, setErrors] = useState({
@@ -84,12 +84,23 @@ const ProductForm = () => {
         setErrors(prev => ({ ...prev, [name]: validateField(name, value) }));
     };
 
+    const generateImage = (productData) => {
+        return `https://picsum.photos/seed/${encodeURIComponent(productData.name)}/400/300`;
+    }
+
     const handleSaveProduct = async (productData) => {
             const url = initialData
             ? `http://localhost:8081/api/products/${initialData.id}`
             : "http://localhost:8081/api/products";
 
         const method = initialData ? "PUT" : "POST";
+
+        if (!productData.image) {
+            productData.image = generateImage(productData);
+        }
+
+
+        console.log('Enviando datos del producto:', productData);
 
         try {
             await fetch(url, {
@@ -113,7 +124,7 @@ const ProductForm = () => {
     const handleSubmit = () => {
         const newErrors = {};
         Object.keys(form).forEach(key => {
-            if (key !== 'images') {
+            if (key !== 'image') {
                 newErrors[key] = validateField(key, form[key]);
             }
         });
@@ -230,7 +241,7 @@ const ProductForm = () => {
                     </Grid>
 
                     {/* Imágenes */}
-                    <Grid item xs={12}>
+                    {/* <Grid item xs={12}>
                         <Typography variant="h6" gutterBottom sx={{ mb: 3 }}>
                             Imágenes del producto
                         </Typography>
@@ -262,7 +273,7 @@ const ProductForm = () => {
                                 Formatos aceptados: JPG, PNG, GIF
                             </Typography>
                         </Box>
-                    </Grid>
+                    </Grid> */}
                 </Grid>
 
                 <Divider sx={{ my: 4 }} />

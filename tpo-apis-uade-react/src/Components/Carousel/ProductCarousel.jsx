@@ -2,7 +2,7 @@ import React from 'react';
 import { Carousel } from 'react-bootstrap';
 import { Box, Grid, Card, CardMedia, CardContent, Typography, CircularProgress,Alert } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { useFetch } from '../../hooks/UseFetch';
+import { useFetch } from "../../Hooks/UseFetch.js";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const ProductCarousel = () => {

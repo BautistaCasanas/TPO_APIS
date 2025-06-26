@@ -66,7 +66,7 @@ public class SecurityConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                    .allowedOrigins("http://localhost:5173") // o el puerto que uses para tu React
+                    .allowedOrigins("http://localhost:8081", "http://localhost:5173") // o el puerto que uses para tu React
                     .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH")
                     .allowedHeaders("*")
                     .allowCredentials(true);
