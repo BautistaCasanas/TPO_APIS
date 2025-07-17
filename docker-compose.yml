@@ -1,49 +1,18 @@
-
-# version: "3.8"
+version: "3.8"
 
 services:
-  mysql:
-    image: mysql:8.0
-    container_name: apis_mysql
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: apis_db
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
-    networks:
-      - apis_network
-  
   backend:
     build:
       context: ./backend
     container_name: apis_backend
-    depends_on:
-      - mysql
     ports:
       - "8081:8081"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/apis_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/apis_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: 
     networks:
       - apis_network
-
-  frontend:
-    build:
-      context: ./tpo-apis-uade-react
-    container_name: apis_frontend
-    ports:
-      - "5173:80"
-    depends_on:
-      - backend
-    networks:
-      - apis_network
-
-volumes:
-  mysql_data:
 
 networks:
   apis_network:

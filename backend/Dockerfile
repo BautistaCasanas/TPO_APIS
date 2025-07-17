@@ -1,34 +1,30 @@
-# Dockerfile for Spring Boot Backend (Maven)
-# Use an official Maven image to build the application
+# Etapa de construcción
 FROM maven:3.9.6-eclipse-temurin-21 AS build
 
-# Set the working directory inside the container
 WORKDIR /app
 
-# Copy Maven wrapper and pom.xml to leverage Docker cache for dependencies
+# Copiar los archivos de configuración de Maven
 COPY mvnw* pom.xml ./
 COPY .mvn .mvn
 
-# Download dependencies (this step will be cached unless pom.xml changes)
+# Descargar dependencias
 RUN ./mvnw dependency:go-offline
 
-# Copy the rest of the source code
+# Copiar el código fuente
 COPY src ./src
 
-# Package the application (skip tests for faster build, change if needed)
+# Construir la aplicación sin ejecutar los tests
 RUN ./mvnw package -DskipTests
 
-# Use a minimal JRE image for running the app
+# Etapa de producción
 FROM eclipse-temurin:21-jre
 
-# Set the working directory for the runtime image
 WORKDIR /app
 
-# Copy the packaged JAR from the build stage
+# Copiar el jar desde la etapa anterior
 COPY --from=build /app/target/*.jar app.jar
 
-# Expose the port your Spring Boot app runs on (default 8080)
 EXPOSE 8081
 
-# Run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
+
