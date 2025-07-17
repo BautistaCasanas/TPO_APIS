@@ -40,4 +40,10 @@ public class MarcaController {
     public void eliminarMarca(@PathVariable Long id) {
         marcaService.eliminarMarca(id);
     }
+
+    @GetMapping(params = "nombre")
+    public MarcaResponseDTO buscarPorNombre(@RequestParam String nombre) {
+        return marcaService.buscarPorNombre(nombre);
+}
+
 }

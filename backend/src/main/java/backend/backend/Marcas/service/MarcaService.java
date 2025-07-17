@@ -117,4 +117,13 @@ public class MarcaService {
         dto.setDescripcion(marca.getDescripcion());
         return dto;
     }
+
+    public MarcaResponseDTO buscarPorNombre(String nombre) {
+    if (nombre == null || nombre.isBlank()) {
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El nombre es obligatorio para la búsqueda");
+    }
+    Marca marca = marcaRepository.findByNombreIgnoreCase(nombre)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Marca no encontrada con nombre: " + nombre));
+    return convertirAResponseDTO(marca);
+    }
 }

@@ -1,6 +1,7 @@
 package backend.backend.Products.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import backend.backend.Marcas.model.Marca;
 import backend.backend.Users.model.Usuario;
 // import java.util.ArrayList;
 // import java.util.List;
@@ -34,4 +35,8 @@ public class Producto {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", nullable = false, insertable = false, updatable = false)
     private Usuario usuario;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "marca_id", nullable = false)
+    private Marca marca;
 }
