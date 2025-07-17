@@ -92,6 +92,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/comments").authenticated()
                 .requestMatchers(HttpMethod.GET, "/api/users/{id}").authenticated()
                 .requestMatchers(HttpMethod.PUT, "/api/users/{id}").authenticated()
+                .requestMatchers("/api/marcas/**").authenticated()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

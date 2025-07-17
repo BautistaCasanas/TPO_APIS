@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import backend.backend.Marcas.exception.MarcaNoEncontradaException;
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -29,4 +31,8 @@ public class GlobalExceptionHandler {
                              .body(ex.getMessage());
     }
     
+    @ExceptionHandler(MarcaNoEncontradaException.class)
+    public ResponseEntity<String> handleMarcaNoEncontradaException(MarcaNoEncontradaException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
 }
